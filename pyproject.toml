@@ -8,6 +8,8 @@ dependencies = [
     "numpy>=2.5.3",
     "pandas>=3.0.6",
     "pillow>=12.3.0",
+    "torch>=2.14.1",
+    "torchvision>=0.29.1",
 ]
 
 [dependency-groups]
