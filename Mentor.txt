@@ -1,0 +1,2 @@
+Mes resultats ne justifient pas le semi-supervisé
+pour le passage à l'echelle, j'ai juste calculé le temps nécéssaire pour entrainer 4 millions d'image en supervisé
