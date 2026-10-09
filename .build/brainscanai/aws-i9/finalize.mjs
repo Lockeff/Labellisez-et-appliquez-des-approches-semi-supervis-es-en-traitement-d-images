@@ -1,0 +1,34 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {createHash} from 'node:crypto';
+import {pathToFileURL} from 'node:url';
+const workspaceDir=process.cwd();
+const skill='C:/Users/ronan/.codex/plugins/cache/openai-primary-runtime/presentations/26.904.11930/skills/presentations';
+const validators=path.join(skill,'container_tools');
+const {finalizePresentation}=await import(pathToFileURL(path.join(validators,'artifact_tool_utils.mjs')).href);
+const referencePath=path.join(workspaceDir,'output/presentations/BrainScanAI_presentation_13_slides_actualisee.pptx');
+const referenceSha256=createHash('sha256').update(await fs.readFile(referencePath)).digest('hex');
+const frenchChecks=JSON.parse(await fs.readFile(path.join(workspaceDir,'.build/brainscanai/aws-i9/french-table-totals.json'),'utf8'));
+const candidateSha256=createHash('sha256').update(await fs.readFile(path.join(workspaceDir,'.build/brainscanai/aws-i9/candidate.pptx'))).digest('hex');
+if(frenchChecks.passed!==true || frenchChecks.contracts_checked.length!==3 || frenchChecks.candidate_sha256!==candidateSha256) throw new Error('French table totals require successful validation on this candidate');
+const tables=[2,3,5,6,7,9,10,11,12,13];
+const result=await finalizePresentation({
+ workspaceDir,
+ candidatePath:path.join(workspaceDir,'.build/brainscanai/aws-i9/candidate.pptx'),
+ finalPath:path.join(workspaceDir,'output/presentations/BrainScanAI_presentation_13_slides_CPU_AWS.pptx'),
+ pythonExecutable:path.join(workspaceDir,'.venv/Scripts/python.exe'),
+ integrityValidatorPath:path.join(validators,'inspect_presentation_package_integrity.py'),
+ layoutValidatorPath:path.join(validators,'inspect_presentation_layout_geometry.py'),
+ layoutArgs:['--expected-slide-size-emu','12192000,6858000','--validate-heading-fit','--validate-bullet-geometry',...tables.flatMap(i=>['--require-native-table-slide',String(i)])],
+ explicitTotalSlideCount:13,
+ requiredNativeTableOwnerSlides:tables,
+ requiredNativeChartOwnerSlides:[5],
+ nativeChartTargetApplication:'portable',
+ // Required sums are checked on the real French table text by
+ // check_french_totals.py. The bundled parser cannot read decimal commas
+ // with suffix EUR symbols; preserve the source deck's French formatting.
+ fontPolicy:{basis:'reference',families:['Arial','Aptos'],referencePath,referenceSha256},
+ verifyArtifactToolImport:false,
+ receiptPath:path.join(workspaceDir,'.build/brainscanai/aws-i9/final-validation.json')
+});
+console.log(JSON.stringify({finalPath:result.finalPath,slides:result.packageIntegrity.slide_count,layoutFindings:result.presentationLayout.findingCount,integrity:result.packageIntegrity.status,chartPassed:result.nativeChartValidation.passed,arithmetic:result.nativeTableArithmeticValidation?.passed},null,2));

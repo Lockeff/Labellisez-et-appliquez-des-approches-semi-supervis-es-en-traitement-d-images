@@ -1,0 +1,245 @@
+{
+  "threads_cpu": 24,
+  "appareil": "cpu",
+  "ari_layer4": 0.3772887757615568,
+  "ari_layer3": 0.033925049309664695,
+  "epoques_faibles": 5,
+  "epoques_fortes_semi": 10,
+  "epoques_fortes_supervise": 10,
+  "resultats_semi": {
+    "Accuracy": 0.85,
+    "F1": 0.8421052631578947,
+    "Précision": 0.8888888888888888,
+    "Rappel": 0.8,
+    "F2": 0.8163265306122449
+  },
+  "resultats_supervise": {
+    "Accuracy": 0.9,
+    "F1": 0.9,
+    "Précision": 0.9,
+    "Rappel": 0.9,
+    "F2": 0.9
+  },
+  "confusion_semi": [
+    [
+      9,
+      1
+    ],
+    [
+      2,
+      8
+    ]
+  ],
+  "confusion_supervise": [
+    [
+      9,
+      1
+    ],
+    [
+      1,
+      9
+    ]
+  ],
+  "groupes_dbscan": [
+    93,
+    36,
+    2,
+    15,
+    8,
+    12,
+    1,
+    1,
+    1
+  ],
+  "heures_estimees_4m": 8.19538777778184,
+  "bilan_ressources": {
+    "Création du modèle": {
+      "Durée (s)": 141.41150539999944,
+      "Pic RAM (Mio)": 3310.07421875,
+      "Durée (min)": 2.356858423333324
+    },
+    "Traitement final": {
+      "Durée (s)": 7.3758490000036545,
+      "Pic RAM (Mio)": 3322.515625,
+      "Durée (min)": 0.12293081666672757
+    }
+  },
+  "details_ressources": [
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Préparation et égalisation des images",
+      "Durée (s)": 4.095124500017846,
+      "RAM au départ (Mio)": 462.61328125,
+      "Pic RAM (Mio)": 1903.6875,
+      "Hausse maximale (Mio)": 1441.07421875
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Chargement du modèle d’extraction",
+      "Durée (s)": 0.11644539999542758,
+      "RAM au départ (Mio)": 1903.73828125,
+      "Pic RAM (Mio)": 1958.80859375,
+      "Hausse maximale (Mio)": 55.0703125
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Extraction des embeddings layer4",
+      "Durée (s)": 6.367974399996456,
+      "RAM au départ (Mio)": 1958.7890625,
+      "Pic RAM (Mio)": 2082.140625,
+      "Hausse maximale (Mio)": 123.3515625
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Essai des embeddings layer3",
+      "Durée (s)": 5.05926070001442,
+      "RAM au départ (Mio)": 2082.26953125,
+      "Pic RAM (Mio)": 2084.57421875,
+      "Hausse maximale (Mio)": 2.3046875
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Création du tableau de features",
+      "Durée (s)": 0.05221419999725185,
+      "RAM au départ (Mio)": 2084.62890625,
+      "Pic RAM (Mio)": 2087.48046875,
+      "Hausse maximale (Mio)": 2.8515625
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Sauvegarde du tableau CSV",
+      "Durée (s)": 0.2945680000120774,
+      "RAM au départ (Mio)": 2087.46484375,
+      "Pic RAM (Mio)": 2103.16796875,
+      "Hausse maximale (Mio)": 15.703125
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Lecture du CSV et séparation des ensembles",
+      "Durée (s)": 0.09124249999877065,
+      "RAM au départ (Mio)": 2093.4609375,
+      "Pic RAM (Mio)": 2117.56640625,
+      "Hausse maximale (Mio)": 24.10546875
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Standardisation des embeddings",
+      "Durée (s)": 0.012059800006682053,
+      "RAM au départ (Mio)": 2117.55078125,
+      "Pic RAM (Mio)": 2121.7578125,
+      "Hausse maximale (Mio)": 4.20703125
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "PCA des embeddings",
+      "Durée (s)": 0.018185799999628216,
+      "RAM au départ (Mio)": 2121.7421875,
+      "Pic RAM (Mio)": 2124.02734375,
+      "Hausse maximale (Mio)": 2.28515625
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Clustering K-Means",
+      "Durée (s)": 0.02489089997834526,
+      "RAM au départ (Mio)": 2124.01171875,
+      "Pic RAM (Mio)": 2124.73828125,
+      "Hausse maximale (Mio)": 0.7265625
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Essais DBSCAN",
+      "Durée (s)": 0.020537300006253645,
+      "RAM au départ (Mio)": 2126.609375,
+      "Pic RAM (Mio)": 2126.7578125,
+      "Hausse maximale (Mio)": 0.1484375
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "ARI des embeddings layer4",
+      "Durée (s)": 0.0031521999917458743,
+      "RAM au départ (Mio)": 2137.59765625,
+      "Pic RAM (Mio)": 2137.59765625,
+      "Hausse maximale (Mio)": 0.0
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Comparaison ARI des embeddings layer3",
+      "Durée (s)": 0.015058599994517863,
+      "RAM au départ (Mio)": 2137.40625,
+      "Pic RAM (Mio)": 2140.89453125,
+      "Hausse maximale (Mio)": 3.48828125
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Attribution des labels faibles",
+      "Durée (s)": 0.007259700010763481,
+      "RAM au départ (Mio)": 2140.83203125,
+      "Pic RAM (Mio)": 2151.19140625,
+      "Hausse maximale (Mio)": 10.359375
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Préparation des chargeurs CNN",
+      "Durée (s)": 0.18969810000271536,
+      "RAM au départ (Mio)": 2149.40625,
+      "Pic RAM (Mio)": 2844.3984375,
+      "Hausse maximale (Mio)": 694.9921875
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Création des deux CNN",
+      "Durée (s)": 0.21105169999646023,
+      "RAM au départ (Mio)": 2844.38671875,
+      "Pic RAM (Mio)": 2945.8359375,
+      "Hausse maximale (Mio)": 101.44921875
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Hyperparamètres faibles puis forts du CNN semi-supervisé",
+      "Durée (s)": 83.18038519998663,
+      "RAM au départ (Mio)": 2945.94921875,
+      "Pic RAM (Mio)": 3243.1640625,
+      "Hausse maximale (Mio)": 297.21484375
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Entraînement faible et évaluation",
+      "Durée (s)": 25.71940000000177,
+      "RAM au départ (Mio)": 3152.4609375,
+      "Pic RAM (Mio)": 3244.51171875,
+      "Hausse maximale (Mio)": 92.05078125
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Entraînement fort semi-supervisé et évaluation",
+      "Durée (s)": 3.1490835000004154,
+      "RAM au départ (Mio)": 3181.43359375,
+      "Pic RAM (Mio)": 3245.24609375,
+      "Hausse maximale (Mio)": 63.8125
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Hyperparamètres du CNN supervisé",
+      "Durée (s)": 9.82066150000901,
+      "RAM au départ (Mio)": 3152.03125,
+      "Pic RAM (Mio)": 3310.07421875,
+      "Hausse maximale (Mio)": 158.04296875
+    },
+    {
+      "Groupe": "Création du modèle",
+      "Opération": "Entraînement supervisé et évaluation",
+      "Durée (s)": 2.963251399982255,
+      "RAM au départ (Mio)": 3193.3359375,
+      "Pic RAM (Mio)": 3308.33984375,
+      "Hausse maximale (Mio)": 115.00390625
+    },
+    {
+      "Groupe": "Traitement final",
+      "Opération": "Prédiction des images finales",
+      "Durée (s)": 7.3758490000036545,
+      "RAM au départ (Mio)": 3313.140625,
+      "Pic RAM (Mio)": 3322.515625,
+      "Hausse maximale (Mio)": 9.375
+    }
+  ]
+}

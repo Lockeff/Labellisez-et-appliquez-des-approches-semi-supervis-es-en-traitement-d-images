@@ -1,0 +1,794 @@
+﻿[
+    {
+        "slide":  1,
+        "name":  "TextBox 1",
+        "text":  "1",
+        "boundWidth":  10,
+        "boundHeight":  14.4,
+        "availableWidth":  34,
+        "availableHeight":  18
+    },
+    {
+        "slide":  1,
+        "name":  "TextBox 2",
+        "text":  "BrainScanAI",
+        "boundWidth":  323.5,
+        "boundHeight":  62.4,
+        "availableWidth":  550,
+        "availableHeight":  74
+    },
+    {
+        "slide":  1,
+        "name":  "TextBox 3",
+        "text":  "Features, clustering et\napprentissage semi-supervisé",
+        "boundWidth":  366,
+        "boundHeight":  64.8,
+        "availableWidth":  560,
+        "availableHeight":  100
+    },
+    {
+        "slide":  1,
+        "name":  "TextBox 4",
+        "text":  "CurelyticsIA, première phase de recherche",
+        "boundWidth":  346,
+        "boundHeight":  21.6,
+        "availableWidth":  550,
+        "availableHeight":  30
+    },
+    {
+        "slide":  1,
+        "name":  "TextBox 5",
+        "text":  "Objectif : explorer la labellisation automatique des images cérébrales à partir de peu de labels connus.",
+        "boundWidth":  511.875031,
+        "boundHeight":  52.8,
+        "availableWidth":  554,
+        "availableHeight":  95
+    },
+    {
+        "slide":  1,
+        "name":  "TextBox 8",
+        "text":  "Exemple du dossier sans label",
+        "boundWidth":  208,
+        "boundHeight":  18,
+        "availableWidth":  262,
+        "availableHeight":  32
+    },
+    {
+        "slide":  1,
+        "name":  "TextBox 9",
+        "text":  "Synthèse du notebook et de la fiche d\u0027auto-évaluation",
+        "boundWidth":  264.125031,
+        "boundHeight":  13.2,
+        "availableWidth":  805,
+        "availableHeight":  25
+    },
+    {
+        "slide":  2,
+        "name":  "TextBox 1",
+        "text":  "Données disponibles et nettoyage",
+        "boundWidth":  526.875061,
+        "boundHeight":  38.4,
+        "availableWidth":  866,
+        "availableHeight":  80
+    },
+    {
+        "slide":  2,
+        "name":  "TextBox 3",
+        "text":  "2",
+        "boundWidth":  10,
+        "boundHeight":  14.4,
+        "availableWidth":  34,
+        "availableHeight":  18
+    },
+    {
+        "slide":  2,
+        "name":  "TextBox 4",
+        "text":  "1 506 fichiers JPEG recensés",
+        "boundWidth":  354.375031,
+        "boundHeight":  30,
+        "availableWidth":  570,
+        "availableHeight":  34
+    },
+    {
+        "slide":  2,
+        "name":  "TextBox 6",
+        "text":  "96 copies écartées de la liste de travail. Les images sources restent intactes.",
+        "boundWidth":  513.625061,
+        "boundHeight":  45.6,
+        "availableWidth":  555,
+        "availableHeight":  66
+    },
+    {
+        "slide":  2,
+        "name":  "TextBox 11",
+        "text":  "Label normal",
+        "boundWidth":  91.12504,
+        "boundHeight":  18,
+        "availableWidth":  128,
+        "availableHeight":  24
+    },
+    {
+        "slide":  2,
+        "name":  "TextBox 12",
+        "text":  "Label cancer",
+        "boundWidth":  90.25,
+        "boundHeight":  18,
+        "availableWidth":  128,
+        "availableHeight":  24
+    },
+    {
+        "slide":  2,
+        "name":  "TextBox 13",
+        "text":  "Échantillon de 100 images\n512 × 512 pixels, RGB\nAucune erreur de lecture",
+        "boundWidth":  228.875046,
+        "boundHeight":  68.4,
+        "availableWidth":  278,
+        "availableHeight":  110
+    },
+    {
+        "slide":  2,
+        "name":  "TextBox 14",
+        "text":  "Le descriptif annonce 1 500 JPEG. L\u0027énoncé annonce des PNG.",
+        "boundWidth":  316,
+        "boundHeight":  13.2,
+        "availableWidth":  805,
+        "availableHeight":  25
+    },
+    {
+        "slide":  3,
+        "name":  "TextBox 1",
+        "text":  "Prétraitement et extraction des features",
+        "boundWidth":  610.75,
+        "boundHeight":  38.4,
+        "availableWidth":  866,
+        "availableHeight":  80
+    },
+    {
+        "slide":  3,
+        "name":  "TextBox 3",
+        "text":  "3",
+        "boundWidth":  10,
+        "boundHeight":  14.4,
+        "availableWidth":  34,
+        "availableHeight":  18
+    },
+    {
+        "slide":  3,
+        "name":  "Rectangle 4",
+        "text":  "Prétraitement\nImageNet",
+        "boundWidth":  144.124954,
+        "boundHeight":  55.2,
+        "availableWidth":  230,
+        "availableHeight":  94
+    },
+    {
+        "slide":  3,
+        "name":  "Rectangle 5",
+        "text":  "ResNet18\nParamètres gelés",
+        "boundWidth":  186.25,
+        "boundHeight":  55.2,
+        "availableWidth":  230,
+        "availableHeight":  94
+    },
+    {
+        "slide":  3,
+        "name":  "Rectangle 6",
+        "text":  "512 features\npar image",
+        "boundWidth":  133.875046,
+        "boundHeight":  55.2,
+        "availableWidth":  230,
+        "availableHeight":  94
+    },
+    {
+        "slide":  3,
+        "name":  "TextBox 9",
+        "text":  "Redimensionnement à 256\nRecadrage central à 224 × 224\nNormalisation prévue par le modèle",
+        "boundWidth":  252.5,
+        "boundHeight":  86.4,
+        "availableWidth":  270,
+        "availableHeight":  110
+    },
+    {
+        "slide":  3,
+        "name":  "TextBox 10",
+        "text":  "Poids IMAGENET1K_V1\n0 paramètre entraînable\nLa couche finale devient Identity",
+        "boundWidth":  262,
+        "boundHeight":  64.8,
+        "availableWidth":  273,
+        "availableHeight":  110
+    },
+    {
+        "slide":  3,
+        "name":  "TextBox 11",
+        "text":  "Vecteur numérique descriptif\nExtraction par lots de 16\n1 410 lignes dans le tableau",
+        "boundWidth":  233.005035,
+        "boundHeight":  64.8,
+        "availableWidth":  250,
+        "availableHeight":  110
+    },
+    {
+        "slide":  3,
+        "name":  "TextBox 12",
+        "text":  "Le CSV conserve le chemin de l\u0027image et les 512 features. L\u0027étape 3 recharge ce tableau.",
+        "boundWidth":  800.75,
+        "boundHeight":  50.4,
+        "availableWidth":  864,
+        "availableHeight":  53
+    },
+    {
+        "slide":  4,
+        "name":  "TextBox 1",
+        "text":  "Ensembles séparés avant le clustering",
+        "boundWidth":  596.5,
+        "boundHeight":  38.4,
+        "availableWidth":  866,
+        "availableHeight":  80
+    },
+    {
+        "slide":  4,
+        "name":  "TextBox 3",
+        "text":  "4",
+        "boundWidth":  10,
+        "boundHeight":  14.4,
+        "availableWidth":  34,
+        "availableHeight":  18
+    },
+    {
+        "slide":  4,
+        "name":  "TextBox 4",
+        "text":  "Données fortement labellisées : 99 images",
+        "boundWidth":  450.75,
+        "boundHeight":  26.4,
+        "availableWidth":  864,
+        "availableHeight":  30
+    },
+    {
+        "slide":  4,
+        "name":  "Rectangle 5",
+        "text":  "Entraînement : 63",
+        "boundWidth":  172.624954,
+        "boundHeight":  25.2,
+        "availableWidth":  227,
+        "availableHeight":  52
+    },
+    {
+        "slide":  4,
+        "name":  "Rectangle 6",
+        "text":  "Validation : 16",
+        "boundWidth":  137.064957,
+        "boundHeight":  25.2,
+        "availableWidth":  227,
+        "availableHeight":  52
+    },
+    {
+        "slide":  4,
+        "name":  "Rectangle 7",
+        "text":  "Test : 20",
+        "boundWidth":  85.29504,
+        "boundHeight":  25.2,
+        "availableWidth":  227,
+        "availableHeight":  52
+    },
+    {
+        "slide":  4,
+        "name":  "TextBox 8",
+        "text":  "Split stratifié selon normal/cancer. Le test contient 10 images de chaque classe.",
+        "boundWidth":  639.005066,
+        "boundHeight":  21.6,
+        "availableWidth":  864,
+        "availableHeight":  43
+    },
+    {
+        "slide":  4,
+        "name":  "TextBox 9",
+        "text":  "Données sans label : 1 311 images",
+        "boundWidth":  367.535034,
+        "boundHeight":  26.4,
+        "availableWidth":  864,
+        "availableHeight":  30
+    },
+    {
+        "slide":  4,
+        "name":  "Rectangle 10",
+        "text":  "Entraînement : 1 048",
+        "boundWidth":  201.75,
+        "boundHeight":  25.2,
+        "availableWidth":  379,
+        "availableHeight":  52
+    },
+    {
+        "slide":  4,
+        "name":  "Rectangle 11",
+        "text":  "Test : 263",
+        "boundWidth":  96.92,
+        "boundHeight":  25.2,
+        "availableWidth":  379,
+        "availableHeight":  52
+    },
+    {
+        "slide":  4,
+        "name":  "TextBox 12",
+        "text":  "StandardScaler et PCA apprennent uniquement sur le train sans label. Les autres ensembles utilisent transform.",
+        "boundWidth":  860.075,
+        "boundHeight":  45.6,
+        "availableWidth":  864,
+        "availableHeight":  48
+    },
+    {
+        "slide":  5,
+        "name":  "TextBox 1",
+        "text":  "Clustering sur les coordonnées PCA",
+        "boundWidth":  564.625061,
+        "boundHeight":  38.4,
+        "availableWidth":  866,
+        "availableHeight":  80
+    },
+    {
+        "slide":  5,
+        "name":  "TextBox 3",
+        "text":  "5",
+        "boundWidth":  10,
+        "boundHeight":  14.4,
+        "availableWidth":  34,
+        "availableHeight":  18
+    },
+    {
+        "slide":  5,
+        "name":  "TextBox 4",
+        "text":  "K-Means : deux groupes",
+        "boundWidth":  272.75,
+        "boundHeight":  27.6,
+        "availableWidth":  445,
+        "availableHeight":  32
+    },
+    {
+        "slide":  5,
+        "name":  "TextBox 5",
+        "text":  "PCA : 512 features vers 2 coordonnées. Chaque point représente une image.",
+        "boundWidth":  436.005035,
+        "boundHeight":  43.2,
+        "availableWidth":  445,
+        "availableHeight":  48
+    },
+    {
+        "slide":  5,
+        "name":  "TextBox 7",
+        "text":  "Groupe 0 : 566 images. Groupe 1 : 482.",
+        "boundWidth":  287.75,
+        "boundHeight":  19.2,
+        "availableWidth":  464,
+        "availableHeight":  29
+    },
+    {
+        "slide":  5,
+        "name":  "TextBox 8",
+        "text":  "DBSCAN : neuf essais",
+        "boundWidth":  250.125046,
+        "boundHeight":  27.6,
+        "availableWidth":  360,
+        "availableHeight":  32
+    },
+    {
+        "slide":  5,
+        "name":  "TextBox 9",
+        "text":  "eps : rayon ; minimum : points voisins.",
+        "boundWidth":  276,
+        "boundHeight":  19.2,
+        "availableWidth":  360,
+        "availableHeight":  24
+    },
+    {
+        "slide":  5,
+        "name":  "TextBox 11",
+        "text":  "Aucun essai ne produit deux groupes. K-Means fournit les labels faibles retenus.",
+        "boundWidth":  364,
+        "boundHeight":  40.8,
+        "availableWidth":  360,
+        "availableHeight":  42
+    },
+    {
+        "slide":  6,
+        "name":  "TextBox 1",
+        "text":  "Labels faibles et contrôle par l\u0027ARI",
+        "boundWidth":  531.25,
+        "boundHeight":  38.4,
+        "availableWidth":  866,
+        "availableHeight":  80
+    },
+    {
+        "slide":  6,
+        "name":  "TextBox 3",
+        "text":  "6",
+        "boundWidth":  10,
+        "boundHeight":  14.4,
+        "availableWidth":  34,
+        "availableHeight":  18
+    },
+    {
+        "slide":  6,
+        "name":  "Rectangle 4",
+        "text":  "Images sans label",
+        "boundWidth":  174.75,
+        "boundHeight":  25.2,
+        "availableWidth":  215,
+        "availableHeight":  65
+    },
+    {
+        "slide":  6,
+        "name":  "Rectangle 5",
+        "text":  "Groupes K-Means 0 / 1",
+        "boundWidth":  211.875046,
+        "boundHeight":  24,
+        "availableWidth":  230,
+        "availableHeight":  65
+    },
+    {
+        "slide":  6,
+        "name":  "Rectangle 6",
+        "text":  "Colonne label_faible",
+        "boundWidth":  187,
+        "boundHeight":  24,
+        "availableWidth":  215,
+        "availableHeight":  65
+    },
+    {
+        "slide":  6,
+        "name":  "TextBox 9",
+        "text":  "Le train reçoit ses groupes. K-Means prédit ceux du test sans réentraînement.",
+        "boundWidth":  729.75,
+        "boundHeight":  25.2,
+        "availableWidth":  864,
+        "availableHeight":  49
+    },
+    {
+        "slide":  6,
+        "name":  "TextBox 10",
+        "text":  "Les numéros 0 et 1 n\u0027identifient pas automatiquement normal et cancer.",
+        "boundWidth":  413.5,
+        "boundHeight":  57.6,
+        "availableWidth":  528,
+        "availableHeight":  72
+    },
+    {
+        "slide":  6,
+        "name":  "TextBox 11",
+        "text":  "ARI",
+        "boundWidth":  46,
+        "boundHeight":  27.6,
+        "availableWidth":  235,
+        "availableHeight":  32
+    },
+    {
+        "slide":  6,
+        "name":  "TextBox 12",
+        "text":  "-0,026",
+        "boundWidth":  133.875046,
+        "boundHeight":  51.6,
+        "availableWidth":  235,
+        "availableHeight":  64
+    },
+    {
+        "slide":  6,
+        "name":  "TextBox 13",
+        "text":  "Sur 16 images fortes de validation",
+        "boundWidth":  185.75,
+        "boundHeight":  40.8,
+        "availableWidth":  235,
+        "availableHeight":  47
+    },
+    {
+        "slide":  6,
+        "name":  "TextBox 14",
+        "text":  "L\u0027ARI proche de zéro ne montre pas d\u0027accord convaincant avec les labels connus.",
+        "boundWidth":  518.5,
+        "boundHeight":  48,
+        "availableWidth":  528,
+        "availableHeight":  72
+    },
+    {
+        "slide":  7,
+        "name":  "TextBox 1",
+        "text":  "Comparaison des deux entraînements CNN",
+        "boundWidth":  665.875061,
+        "boundHeight":  38.4,
+        "availableWidth":  866,
+        "availableHeight":  80
+    },
+    {
+        "slide":  7,
+        "name":  "TextBox 3",
+        "text":  "7",
+        "boundWidth":  10,
+        "boundHeight":  14.4,
+        "availableWidth":  34,
+        "availableHeight":  18
+    },
+    {
+        "slide":  7,
+        "name":  "TextBox 4",
+        "text":  "Semi-supervisé",
+        "boundWidth":  184.125046,
+        "boundHeight":  28.8,
+        "availableWidth":  240,
+        "availableHeight":  30
+    },
+    {
+        "slide":  7,
+        "name":  "Rectangle 5",
+        "text":  "1 048 labels faibles\n5 époques",
+        "boundWidth":  176.75,
+        "boundHeight":  48,
+        "availableWidth":  220,
+        "availableHeight":  71
+    },
+    {
+        "slide":  7,
+        "name":  "Rectangle 6",
+        "text":  "63 labels forts\n10 époques",
+        "boundWidth":  129.875046,
+        "boundHeight":  48,
+        "availableWidth":  220,
+        "availableHeight":  71
+    },
+    {
+        "slide":  7,
+        "name":  "TextBox 8",
+        "text":  "Le même CNN poursuit son entraînement.\nTest faible : accuracy de 0,973 sur 263 images (labels K-Means).",
+        "boundWidth":  494.49,
+        "boundHeight":  40.8,
+        "availableWidth":  564,
+        "availableHeight":  58
+    },
+    {
+        "slide":  7,
+        "name":  "TextBox 9",
+        "text":  "Supervisé",
+        "boundWidth":  121.375038,
+        "boundHeight":  28.8,
+        "availableWidth":  240,
+        "availableHeight":  30
+    },
+    {
+        "slide":  7,
+        "name":  "Rectangle 10",
+        "text":  "63 labels forts\n10 époques",
+        "boundWidth":  129.875046,
+        "boundHeight":  48,
+        "availableWidth":  220,
+        "availableHeight":  71
+    },
+    {
+        "slide":  7,
+        "name":  "Rectangle 11",
+        "text":  "Même test fort\n20 images",
+        "boundWidth":  153,
+        "boundHeight":  55.2,
+        "availableWidth":  188,
+        "availableHeight":  89
+    },
+    {
+        "slide":  7,
+        "name":  "TextBox 18",
+        "text":  "ResNet18 pré-entraîné, couches gelées. Seule la couche finale à deux sorties apprend : 1 026 paramètres.",
+        "boundWidth":  802,
+        "boundHeight":  45.6,
+        "availableWidth":  864,
+        "availableHeight":  49
+    },
+    {
+        "slide":  8,
+        "name":  "TextBox 1",
+        "text":  "Hyperparamètres et métriques de validation",
+        "boundWidth":  674.75,
+        "boundHeight":  38.4,
+        "availableWidth":  866,
+        "availableHeight":  80
+    },
+    {
+        "slide":  8,
+        "name":  "TextBox 3",
+        "text":  "8",
+        "boundWidth":  10,
+        "boundHeight":  14.4,
+        "availableWidth":  34,
+        "availableHeight":  18
+    },
+    {
+        "slide":  8,
+        "name":  "TextBox 4",
+        "text":  "Même grille pour les deux méthodes",
+        "boundWidth":  403,
+        "boundHeight":  27.6,
+        "availableWidth":  490,
+        "availableHeight":  31
+    },
+    {
+        "slide":  8,
+        "name":  "TextBox 6",
+        "text":  "Les deux recherches retiennent 0,001 et 10 époques fortes.",
+        "boundWidth":  455.75,
+        "boundHeight":  52.8,
+        "availableWidth":  495,
+        "availableHeight":  62
+    },
+    {
+        "slide":  8,
+        "name":  "TextBox 7",
+        "text":  "Sélection : meilleur F2 sur 16 labels forts de validation. Le test final reste réservé.",
+        "boundWidth":  300.5,
+        "boundHeight":  68.4,
+        "availableWidth":  322,
+        "availableHeight":  69
+    },
+    {
+        "slide":  8,
+        "name":  "TextBox 8",
+        "text":  "Accuracy : bonnes prédictions.\n\nPrécision : fiabilité des prédictions cancer.\n\nRappel : cancers reconnus.\n\nF1 : équilibre précision/rappel.\n\nF2 : davantage de poids au rappel.",
+        "boundWidth":  283,
+        "boundHeight":  216,
+        "availableWidth":  322,
+        "availableHeight":  253
+    },
+    {
+        "slide":  9,
+        "name":  "TextBox 1",
+        "text":  "Résultats sur les mêmes 20 images de test",
+        "boundWidth":  658.75,
+        "boundHeight":  38.4,
+        "availableWidth":  866,
+        "availableHeight":  80
+    },
+    {
+        "slide":  9,
+        "name":  "TextBox 3",
+        "text":  "9",
+        "boundWidth":  10,
+        "boundHeight":  14.4,
+        "availableWidth":  34,
+        "availableHeight":  18
+    },
+    {
+        "slide":  9,
+        "name":  "TextBox 5",
+        "text":  "Faible puis fort",
+        "boundWidth":  141.625046,
+        "boundHeight":  22.8,
+        "availableWidth":  176,
+        "availableHeight":  28
+    },
+    {
+        "slide":  9,
+        "name":  "TextBox 6",
+        "text":  "Prédiction",
+        "boundWidth":  61.5,
+        "boundHeight":  15.6,
+        "availableWidth":  142,
+        "availableHeight":  22
+    },
+    {
+        "slide":  9,
+        "name":  "TextBox 8",
+        "text":  "Fort uniquement",
+        "boundWidth":  155.375046,
+        "boundHeight":  22.8,
+        "availableWidth":  176,
+        "availableHeight":  28
+    },
+    {
+        "slide":  9,
+        "name":  "TextBox 9",
+        "text":  "Prédiction",
+        "boundWidth":  61.5,
+        "boundHeight":  15.6,
+        "availableWidth":  142,
+        "availableHeight":  22
+    },
+    {
+        "slide":  9,
+        "name":  "TextBox 11",
+        "text":  "2 faux négatifs",
+        "boundWidth":  131,
+        "boundHeight":  21.6,
+        "availableWidth":  184,
+        "availableHeight":  31
+    },
+    {
+        "slide":  9,
+        "name":  "TextBox 12",
+        "text":  "1 faux négatif",
+        "boundWidth":  121,
+        "boundHeight":  21.6,
+        "availableWidth":  184,
+        "availableHeight":  31
+    },
+    {
+        "slide":  9,
+        "name":  "TextBox 13",
+        "text":  "Le supervisé obtient le meilleur F1 cancer dans cette expérience.",
+        "boundWidth":  779.75,
+        "boundHeight":  30,
+        "availableWidth":  864,
+        "availableHeight":  52
+    },
+    {
+        "slide":  9,
+        "name":  "TextBox 14",
+        "text":  "L\u0027écart correspond à une image cancéreuse supplémentaire correctement reconnue.",
+        "boundWidth":  678.375061,
+        "boundHeight":  21.6,
+        "availableWidth":  864,
+        "availableHeight":  36
+    },
+    {
+        "slide":  10,
+        "name":  "TextBox 1",
+        "text":  "Bilan et limites de l\u0027expérience",
+        "boundWidth":  472.75,
+        "boundHeight":  38.4,
+        "availableWidth":  866,
+        "availableHeight":  80
+    },
+    {
+        "slide":  10,
+        "name":  "TextBox 3",
+        "text":  "10",
+        "boundWidth":  16.62504,
+        "boundHeight":  14.4,
+        "availableWidth":  34,
+        "availableHeight":  18
+    },
+    {
+        "slide":  10,
+        "name":  "TextBox 4",
+        "text":  "La chaîne technique est en place",
+        "boundWidth":  397.375031,
+        "boundHeight":  30,
+        "availableWidth":  404,
+        "availableHeight":  59
+    },
+    {
+        "slide":  10,
+        "name":  "TextBox 5",
+        "text":  "Le notebook extrait les features, compare les clusterings et entraîne les deux approches CNN.",
+        "boundWidth":  383.25,
+        "boundHeight":  79.2,
+        "availableWidth":  404,
+        "availableHeight":  88
+    },
+    {
+        "slide":  10,
+        "name":  "TextBox 6",
+        "text":  "Dans cette configuration, le supervisé obtient les meilleures performances sur le test fort.",
+        "boundWidth":  370.625031,
+        "boundHeight":  86.4,
+        "availableWidth":  404,
+        "availableHeight":  98
+    },
+    {
+        "slide":  10,
+        "name":  "TextBox 7",
+        "text":  "Les résultats restent exploratoires",
+        "boundWidth":  251.625046,
+        "boundHeight":  60,
+        "availableWidth":  396,
+        "availableHeight":  59
+    },
+    {
+        "slide":  10,
+        "name":  "TextBox 8",
+        "text":  "20 images de test et 16 de validation limitent la portée de la comparaison.\n\nL\u0027ARI est proche de zéro. La correspondance des groupes 0/1 aux classes médicales n\u0027est pas établie.\n\nCette correspondance reste à vérifier.",
+        "boundWidth":  399.75,
+        "boundHeight":  192,
+        "availableWidth":  396,
+        "availableHeight":  238
+    },
+    {
+        "slide":  10,
+        "name":  "TextBox 9",
+        "text":  "Aucun seuil de performance ni validation clinique n\u0027est établi.",
+        "boundWidth":  299.875031,
+        "boundHeight":  13.2,
+        "availableWidth":  805,
+        "availableHeight":  25
+    }
+]

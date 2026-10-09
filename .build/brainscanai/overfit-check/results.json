@@ -1,0 +1,42 @@
+[
+  {
+    "Modèle":"Semi-supervisé",
+    "Jeu":"Train fort",
+    "Images":63,
+    "Accuracy":0.9682539683,
+    "F1":0.96875,
+    "Précision":0.96875,
+    "Rappel":0.96875,
+    "F2":0.96875
+  },
+  {
+    "Modèle":"Semi-supervisé",
+    "Jeu":"Test fort",
+    "Images":20,
+    "Accuracy":0.85,
+    "F1":0.8421052632,
+    "Précision":0.8888888889,
+    "Rappel":0.8,
+    "F2":0.8163265306
+  },
+  {
+    "Modèle":"Supervisé",
+    "Jeu":"Train fort",
+    "Images":63,
+    "Accuracy":0.9523809524,
+    "F1":0.9523809524,
+    "Précision":0.9677419355,
+    "Rappel":0.9375,
+    "F2":0.9433962264
+  },
+  {
+    "Modèle":"Supervisé",
+    "Jeu":"Test fort",
+    "Images":20,
+    "Accuracy":0.9,
+    "F1":0.9,
+    "Précision":0.9,
+    "Rappel":0.9,
+    "F2":0.9
+  }
+]

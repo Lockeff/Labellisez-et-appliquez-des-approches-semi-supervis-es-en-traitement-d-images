@@ -1,0 +1,70 @@
+{
+  "weak_epochs": 5,
+  "strong_epochs": 10,
+  "learning_rate": 0.001,
+  "validation_F2": 0.975609756097561,
+  "weak_search": [
+    {
+      "epoques_faibles": 5,
+      "taux_apprentissage": 0.001,
+      "epoques_fortes": 10,
+      "Accuracy": 0.9375,
+      "F1": 0.9411764705882353,
+      "Précision": 0.8888888888888888,
+      "Rappel": 1.0,
+      "F2": 0.975609756097561
+    },
+    {
+      "epoques_faibles": 10,
+      "taux_apprentissage": 0.001,
+      "epoques_fortes": 10,
+      "Accuracy": 0.9375,
+      "F1": 0.9411764705882353,
+      "Précision": 0.8888888888888888,
+      "Rappel": 1.0,
+      "F2": 0.975609756097561
+    }
+  ],
+  "original_search": [
+    {
+      "taux_apprentissage": 0.0001,
+      "epoques_fortes": 5,
+      "Accuracy": 0.375,
+      "F1": 0.5,
+      "Précision": 0.4166666666666667,
+      "Rappel": 0.625,
+      "F2": 0.5681818181818182
+    },
+    {
+      "taux_apprentissage": 0.0001,
+      "epoques_fortes": 10,
+      "Accuracy": 0.375,
+      "F1": 0.5,
+      "Précision": 0.4166666666666667,
+      "Rappel": 0.625,
+      "F2": 0.5681818181818182
+    },
+    {
+      "taux_apprentissage": 0.001,
+      "epoques_fortes": 5,
+      "Accuracy": 0.75,
+      "F1": 0.8,
+      "Précision": 0.6666666666666666,
+      "Rappel": 1.0,
+      "F2": 0.9090909090909091
+    },
+    {
+      "taux_apprentissage": 0.001,
+      "epoques_fortes": 10,
+      "Accuracy": 0.9375,
+      "F1": 0.9411764705882353,
+      "Précision": 0.8888888888888888,
+      "Rappel": 1.0,
+      "F2": 0.975609756097561
+    }
+  ],
+  "elapsed_seconds": 405.30115260000457,
+  "changed_cell_id": "hyperparametres-semi-recherche",
+  "markdown_unchanged": true,
+  "test_used": false
+}

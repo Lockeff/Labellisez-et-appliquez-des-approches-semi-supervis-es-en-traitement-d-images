@@ -1,2 +1,27 @@
 Mes resultats ne justifient pas le semi-supervisé
 pour le passage à l'echelle, j'ai juste calculé le temps nécéssaire pour entrainer 4 millions d'image en supervisé
+
+
+
+dans les couts, il faut estimer
+
+- Le couts d'entrainement du dataset
+- Le cout de traitement de 4M
+- Le cout de stockage
+- Sur Combien de temps ? est ce que c'est d'un coup ou sur une année?
+
+Estce que le budget de 300e ou 5000e un fois que tout est fait ou test compris?
+
+Avec 300e sur le cloud, il me faudrait:
+AWS et stockage et cela serait plus long que mon local
+Si on veut le faire sur le cloud, il faudrait une VM avec CPU minimum: combien ca couterait pour faire 4M en une fois ? ou 4M à raison de 400 000 par mois?
+
+4m d'image c'est 7.5H. Si on veut plus rapide, qu'est ce qui est bloquant?
+
+
+
+
+
+Ce que l'on risque de me demander: 
+Quels hyperparamètres optimisés et pourquoi ceux la?
+Ls qestrions scolaires

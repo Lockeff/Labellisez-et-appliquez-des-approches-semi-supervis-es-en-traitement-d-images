@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "candidate_sha256": "281f66f25d8d24a97abb7d9ddc8e7d7771d261aa1c6c22093a64c29afa08b3d3",
+  "contracts_checked": [
+    {
+      "slide": 11,
+      "table": 1,
+      "value_column": 3,
+      "amounts": [
+        "68.39",
+        "4.15",
+        "0.01",
+        "72.55"
+      ],
+      "passed": true
+    },
+    {
+      "slide": 12,
+      "table": 1,
+      "value_column": 1,
+      "amounts": [
+        "18.69",
+        "23.74",
+        "4.15",
+        "20.45",
+        "67.03"
+      ],
+      "passed": true
+    },
+    {
+      "slide": 12,
+      "table": 1,
+      "value_column": 2,
+      "amounts": [
+        "18.69",
+        "12.86",
+        "49.78",
+        "20.45",
+        "101.78"
+      ],
+      "passed": true
+    }
+  ]
+}

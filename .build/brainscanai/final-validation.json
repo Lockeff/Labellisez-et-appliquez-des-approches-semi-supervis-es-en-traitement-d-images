@@ -1,0 +1,15 @@
+{
+  "final_path": "C:\\Users\\ronan\\Documents\\GitHub\\Labellisez-et-appliquez-des-approches-semi-supervis-es-en-traitement-d-images\\output\\presentations\\BrainScanAI_presentation_10_slides.pptx",
+  "sha256": "932b68d1fc9383ab6492d52bd380519f81fb11e875914dbf71eb5cd650b80ef0",
+  "slides": 10,
+  "native_scatter_points": 1048,
+  "chart_matches_notebook_coordinates": true,
+  "notebook_unchanged": true,
+  "native_powerpoint_opened": true,
+  "all_slides_rendered_and_visually_reviewed": true,
+  "structure_validation_passed": true,
+  "font_family": "Arial",
+  "layout_findings": 0,
+  "text_fit_findings": 0,
+  "layout_warning_review": "Slide 5 table-height estimate is conservative; rendered table fits and does not overlap its conclusion."
+}
