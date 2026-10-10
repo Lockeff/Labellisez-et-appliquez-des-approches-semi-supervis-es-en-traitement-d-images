@@ -1,0 +1,159 @@
+{
+  "semi_grid": [
+    {
+      "taux_apprentissage": "0.0001",
+      "epoques_fortes": "5",
+      "Accuracy validation": "0.5625",
+      "F1 cancer validation": "0.4615",
+      "Précision cancer validation": "0.6000",
+      "Rappel cancer validation": "0.375",
+      "F2 cancer validation": "0.4054"
+    },
+    {
+      "taux_apprentissage": "0.0001",
+      "epoques_fortes": "10",
+      "Accuracy validation": "0.6250",
+      "F1 cancer validation": "0.5714",
+      "Précision cancer validation": "0.6667",
+      "Rappel cancer validation": "0.500",
+      "F2 cancer validation": "0.5263"
+    },
+    {
+      "taux_apprentissage": "0.0010",
+      "epoques_fortes": "5",
+      "Accuracy validation": "0.6250",
+      "F1 cancer validation": "0.5714",
+      "Précision cancer validation": "0.6667",
+      "Rappel cancer validation": "0.500",
+      "F2 cancer validation": "0.5263"
+    },
+    {
+      "taux_apprentissage": "0.0010",
+      "epoques_fortes": "10",
+      "Accuracy validation": "0.8125",
+      "F1 cancer validation": "0.8235",
+      "Précision cancer validation": "0.7778",
+      "Rappel cancer validation": "0.875",
+      "F2 cancer validation": "0.8537"
+    }
+  ],
+  "super_grid": [
+    {
+      "taux_apprentissage": "0.0001",
+      "epoques_fortes": "5",
+      "Accuracy validation": "0.5000",
+      "F1 cancer validation": "0.5000",
+      "Précision cancer validation": "0.5000",
+      "Rappel cancer validation": "0.500",
+      "F2 cancer validation": "0.5000"
+    },
+    {
+      "taux_apprentissage": "0.0001",
+      "epoques_fortes": "10",
+      "Accuracy validation": "0.6250",
+      "F1 cancer validation": "0.6250",
+      "Précision cancer validation": "0.6250",
+      "Rappel cancer validation": "0.625",
+      "F2 cancer validation": "0.6250"
+    },
+    {
+      "taux_apprentissage": "0.0010",
+      "epoques_fortes": "5",
+      "Accuracy validation": "0.7500",
+      "F1 cancer validation": "0.7143",
+      "Précision cancer validation": "0.8333",
+      "Rappel cancer validation": "0.625",
+      "F2 cancer validation": "0.6579"
+    },
+    {
+      "taux_apprentissage": "0.0010",
+      "epoques_fortes": "10",
+      "Accuracy validation": "0.9375",
+      "F1 cancer validation": "0.9412",
+      "Précision cancer validation": "0.8889",
+      "Rappel cancer validation": "1.000",
+      "F2 cancer validation": "0.9756"
+    }
+  ],
+  "weak_grid": [
+    {
+      "epoques_faibles": "5",
+      "taux_apprentissage": "0.001",
+      "Accuracy groupes K-Means validation": "1.0"
+    },
+    {
+      "epoques_faibles": "10",
+      "taux_apprentissage": "0.001",
+      "Accuracy groupes K-Means validation": "1.0"
+    }
+  ],
+  "weak_test": [
+    {
+      "Accuracy": "0.973",
+      "F1 cible faible 1": "0.978",
+      "Précision cible faible 1": "1.0",
+      "Rappel cible faible 1": "0.957",
+      "F2 cible faible 1": "0.965"
+    }
+  ],
+  "semi_test": [
+    {
+      "Accuracy": "0.9",
+      "F1 cancer": "0.9",
+      "Précision cancer": "0.9",
+      "Rappel cancer": "0.9",
+      "F2 cancer": "0.9"
+    }
+  ],
+  "super_test": [
+    {
+      "Accuracy": "0.9",
+      "F1 cancer": "0.9",
+      "Précision cancer": "0.9",
+      "Rappel cancer": "0.9",
+      "F2 cancer": "0.9"
+    }
+  ],
+  "train_test": [
+    {
+      "Modèle": "Semi-supervisé",
+      "Jeu": "Train fort",
+      "Images": "63",
+      "Accuracy": "0.968",
+      "F1 cancer": "0.969",
+      "Précision cancer": "0.969",
+      "Rappel cancer": "0.969",
+      "F2 cancer": "0.969"
+    },
+    {
+      "Modèle": "Semi-supervisé",
+      "Jeu": "Test fort",
+      "Images": "20",
+      "Accuracy": "0.900",
+      "F1 cancer": "0.900",
+      "Précision cancer": "0.900",
+      "Rappel cancer": "0.900",
+      "F2 cancer": "0.900"
+    },
+    {
+      "Modèle": "Supervisé",
+      "Jeu": "Train fort",
+      "Images": "63",
+      "Accuracy": "0.952",
+      "F1 cancer": "0.952",
+      "Précision cancer": "0.968",
+      "Rappel cancer": "0.938",
+      "F2 cancer": "0.943"
+    },
+    {
+      "Modèle": "Supervisé",
+      "Jeu": "Test fort",
+      "Images": "20",
+      "Accuracy": "0.900",
+      "F1 cancer": "0.900",
+      "Précision cancer": "0.900",
+      "Rappel cancer": "0.900",
+      "F2 cancer": "0.900"
+    }
+  ]
+}

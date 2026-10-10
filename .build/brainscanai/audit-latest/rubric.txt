@@ -1,0 +1,82 @@
+PAGE 1
+ 
+Auto-évaluation  
+Labellisez et appliquez des approches semi-supervisées en traitement dʼimages 
+ 
+ 
+ 
+Un dernier doute avant lʼenvoi de vos livrables ?  
+ 
+Pour vérifier la qualité de votre travail :  
+● cochez les cases ci-dessous : elles indiquent que vous avez bien pris en compte chaque indicateur de réussite ; 
+● renseignez, si besoin, la colonne “Notesˮ avec des commentaires sur vos livrables / vos étapes. Ils seront des points de discussion 
+avec votre mentor pendant votre session de bilan / soutenance.  
+ 
+Quand toutes les cases de ce document seront cochées, vous pourrez déposer vos livrables sur la plateforme. 
+ 
+Bonne réussite ! 
+ 
+ 
+ 
+ 
+
+
+PAGE 2
+ 
+ 
+Compétences Livrables Indicateurs de réussite de lʼactivité Notes 
+Préparer et 
+transformer 
+des données 
+Notebook – Partie 
+préparation et 
+extraction de 
+features 
+ Jʼai nettoyé les données (suppression ou traitement des valeurs 
+manquantes et des valeurs aberrantes). 
+ Jʼai réduit les biais potentiels liés aux données (traitement des 
+outliers, homogénéité des sources). 
+ Jʼai commenté mon code pour en faciliter la lecture et la 
+compréhension. 
+ Jʼai appliqué les transformations adaptées pour préparer les 
+données en fonction des besoins du modèle. 
+ Jʼai filtré et normalisé les données si nécessaire 
+(standardisation, mise à lʼéchelle, encodage). 
+ Jʼai vérifié que les sorties (par ex. les embeddings) sont bien 
+exploitables pour les étapes suivantes du projet.  
+ 
+ Identifier un 
+modèle adapté 
+ 
+ 
+Notebook - Partie 
+clustering et 
+semi-supervision  
+et support de 
+présentation 
+ Jʼai expérimenté avec plusieurs méthodes de clustering pour 
+identifier celle qui convenait le mieux aux données. 
+ Jʼai justifié l'utilisation d'une approche semi-supervisée (par 
+exemple, en comparant les résultats avec et sans labellisation 
+partielle). 
+ Jʼai utilisé des métriques pertinentes F1 score, courbe ROC, etc.) 
+pour évaluer les performances du modèle. 
+ Jʼai ajusté les hyperparamètres (taux dʼapprentissage, nombre 
+dʼitérations, etc.) pour optimiser lʼentraînement. 
+ 
+
+PAGE 3
+ 
+ Jʼai réalisé un support de présentation contenant des 
+recommandations techniques pour un déploiement à grande 
+échelle 4 millions dʼimages, budget de 5 000 euros). 
+ Jʼai mis en lien mes choix techniques avec les contraintes métier 
+(volume de données, budget, temps de traitement). 
+ Jʼai préparé des arguments pour justifier mes choix techniques et 
+métiers pendant ma soutenance. 
+ Jʼai vérifié la cohérence entre les résultats de mon notebook et 
+les recommandations exposées dans le support de présentation. 
+ 
+ 
+ 
+ 

@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "candidate_sha256": "ce960e3bf9601136f4355b24f6d8fbd94f6ced8595369a2bea1f805ff2b1993b",
+  "changed_slides": [
+    7,
+    8,
+    9
+  ],
+  "unchanged_slides": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    10,
+    11,
+    12,
+    13
+  ]
+}

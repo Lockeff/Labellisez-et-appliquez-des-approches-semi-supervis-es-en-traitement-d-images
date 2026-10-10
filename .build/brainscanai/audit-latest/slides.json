@@ -1,0 +1,67 @@
+[
+  {
+    "slide": 1,
+    "text": "1\nBrainScanAI\nApprentissage semi-supervisé\nCurelyticsIA, première phase de recherche\nObjectif (definition of done): \nAvoir un notebook reproductible pour le faire évoluer si besoin \nComparer différentes approches (supervisées, semi-supervisées) et choisir la meilleure\nDéfinir les conditions du passage à l’échelle de 4M d’images à labeliser en respectant le budget de 5000€\nExemple du dossier sans label\nSynthèse du notebook et de la fiche d'auto-évaluation",
+    "notes": "1"
+  },
+  {
+    "slide": 2,
+    "text": "Données disponibles et nettoyage\n2\n1 506 fichiers JPEG recensés\nEnsemble\nAvant\nAprès filtrage\nCancer\n50\n50\nNormal\n50\n49\nSans label\n1 406\n1 311\nTotal\n1 506\n1 410\n96 copies écartées. Les images sources restent intactes.\nLabel normal\nLabel cancer\nÉchantillon de 100 images\n512 × 512 pixels, RGB\nAucune erreur de lecture\nPas de données manquantes identifiées\nLe descriptif annonce 1 500 JPEG. L'énoncé annonce des PNG.",
+    "notes": "2"
+  },
+  {
+    "slide": 3,
+    "text": "Prétraitement et extraction des features\n3\nÉgalisation des histogrammes : redistribuer les intensités des pixels pour ajuster le contraste, avant la normalisation.\nOrdre du traitement\nOpération réalisée\n1. Égalisation\nAppliquer equalize aux images RGB en uint8.\n2. Prétraitement ImageNet\nRedimensionner à 256, recadrer à 224 × 224, normaliser.\n3. ResNet18 gelé\nExtraire les caractéristiques avec les poids IMAGENET1K_V1.\n4. Tableau de features\nConserver un vecteur de 512 dimensions et le chemin par image.\nProduction d’un CSV de 1 410 lignes, avec 512 features et le chemin de l’image\nLe traitement conserve les trois canaux RGB. Il ne supprime pas les images colorées ni les fichiers sources.",
+    "notes": "3"
+  },
+  {
+    "slide": 4,
+    "text": "Ensembles séparés avant le clustering\n4\nDonnées fortement labellisées : 99 images\nTrain : 63\nValidation : 16\nTest : 20\nDonnées sans label : 1 311 images\nTrain : 1 048\nTest : 263\nLe jeu de validation est réservé pour le choix des hyperparamètre du CNN\nStandardScaler standardise et apprend uniquement sur le jeu de données train sans label. \nPuis ce jeu voit ses dimensions réduites à 2 avec PCA\nLes autres ensembles utilisent transform pour standardiser les features avec les moyennes et écarts-types déjà appris. Puis pca.transform réduit ensuite les dimensions à 2.",
+    "notes": "4"
+  },
+  {
+    "slide": 5,
+    "text": "Clustering sur les coordonnées PCA\n5\nK-Means : deux groupes\nPCA : 512 features vers 2 coordonnées. Chaque point représente une image.\nGroupe 0 : 565 images. Groupe 1 : 483.\nDBSCAN : neuf essais\neps : rayon ; minimum : points voisins.\neps\nMinimum\nGroupes\nHors groupe\n0,5\n3\n93\n368\n0,5\n5\n36\n706\n0,5\n10\n2\n1028\n1,0\n3\n15\n51\n1,0\n5\n8\n112\n1,0\n10\n12\n373\n2,0\n3\n1\n8\n2,0\n5\n1\n10\n2,0\n10\n1\n18\n2 groupes à eps = 0,5 / minimum = 10, mais 1 028 images hors groupe.\nK-Means attribue un label faible à chaque image du train sans label.",
+    "notes": "5"
+  },
+  {
+    "slide": 6,
+    "text": "Test de la couche intermédiaire et ARI\n6\nCalcul de  l’ARI pour évaluer si les groupes créés par le clustering correspondent à la séparation « normal / cancer » des images labelisées\n\nComparaison avec la dernière couche et la couche intermédiaire\nExtraction ResNet18\nDimensions du vecteur\nARI sur 79 labels forts\nlayer4\n512\n0,3773\nIntermédiaire : layer3\n256\n0,0339\nChoix : conserver layer4. Son ARI montre une meilleure correspondance avec les labels connus, qui reste cependant partielle.\nARI : train + validation forts. Test fort exclu. L'essai layer3 sert au clustering. Les CNN apprennent sur les images.",
+    "notes": "6"
+  },
+  {
+    "slide": 7,
+    "text": "Hyperparamètres et métriques de validation pour le CNN\n7\nChoix de rechercher un taux d’apprentissage (Trop grand, il peut rendre l’apprentissage instable ; trop petit, l’apprentissage avance lentement.) et le nombre d’époques (Plus d’époques permettent d’apprendre davantage, mais peuvent aussi favoriser le surapprentissage.)\nTaux\nÉpoques fortes\nF2 semi\nF2 supervisé\n0,0001\n5\n0,4054\n0,5000\n0,0001\n10\n0,5263\n0,6250\n0,001\n5\n0,5263\n0,6579\n0,001\n10\n0,8537\n0,9756\nLabels faibles: utilisation de 5 époques\nLabels forts: Les deux recherches retiennent 0,001 et 10 époques fortes.\nSélection : meilleur F2 sur 16 labels forts de validation. Le test final reste réservé.\nAccuracy : bonnes prédictions\n\nPrécision : fiabilité des prédictions cancer.\n\nRappel : cancers reconnus.\n\nF1 : équilibre précision/rappel.\n\nF2 : davantage de poids au rappel.\nÉpoques faibles\nAccuracy\n5\n1,0000\n10\n1,0000\nl’accuracy ici mesure l’accord avec les groupes K-Means",
+    "notes": "Source : 01_exploration_dataset.ipynb, cellules hyperparametres-semi-recherche et hyperparametres-supervise-recherche, sorties enregistrées après alignement des cibles faibles et fortes. Phase faible : 5 et 10 époques donnent une accuracy de validation de 1,0000 par rapport aux groupes K-Means alignés. À égalité, le code retient 5 époques. F2 semi-supervisé : 0,4054 / 0,5263 / 0,5263 / 0,8537. F2 supervisé : 0,5000 / 0,6250 / 0,6579 / 0,9756. Les deux modèles retiennent un taux de 0,001 et 10 époques fortes. Le meilleur F2 de validation diffère entre modèles. Les 20 images du test final restent exclues de la sélection.\n7"
+  },
+  {
+    "slide": 8,
+    "text": "Comparaison des deux entraînements CNN\n8\nSemi-supervisé\n1 048 labels faibles\n5 époques\n63 labels forts\n10 époques\nLe même CNN poursuit son entraînement : 0 = normal et 1 = cancer.\nTest faible : accuracy de 0,973 sur 263 images (accord avec K-Means).\nSupervisé\n63 labels forts\n10 époques\nMême test fort\n20 images\nResNet18 conserve ses paramètres pré-entraînés, ses couches sont gelées. taux de 0,001 pour les trois phases. Seule sa dernière couche est entraînée pour classer les images en deux catégories.",
+    "notes": "Source : 01_exploration_dataset.ipynb, cellules ba2b3b8a, b184ba1a, 82faeff6 et 9dfb6484. La correspondance entre les groupes K-Means et les cibles du CNN est déterminée uniquement sur les 63 images fortes d'entraînement. Dans cette exécution, groupe 0 vers cible 1 (cancer), groupe 1 vers cible 0 (normal). Les numéros originaux restent dans label_faible. Les cibles du CNN sont alignées dans les phases faible et forte. Les labels faibles restent approximatifs. La validation faible applique la même correspondance. Après 5 époques faibles, accuracy de 0,973 sur les 263 images du test faible : accord avec les cibles dérivées de K-Means, et non évaluation médicale. Puis le même CNN poursuit son entraînement pendant 10 époques sur les 63 labels forts. Le supervisé apprend uniquement sur ces 63 images, pendant 10 époques. Taux de 0,001 pour les trois phases finales.\n8"
+  },
+  {
+    "slide": 9,
+    "text": "Résultats sur les mêmes 20 images de test\n9\nMétrique\nSemi-supervisé\nSupervisé\nAccuracy\n0,900\n0,900\nF1 cancer\n0,900\n0,900\nPrécision cancer\n0,900\n0,900\nRappel cancer\n0,900\n0,900\nF2 cancer\n0,900\n0,900\nSemi supervisé\nPrédiction\nVrai\nnormal\ncancer\nnormal\n9\n1\ncancer\n1\n9\nSupervisé\nPrédiction\nVrai\nnormal\ncancer\nnormal\n9\n1\ncancer\n1\n9\n1 faux négatif\n1 faux négatif\nLes deux CNN obtiennent les mêmes performances sur ce test.\nLa phase faible n'apporte pas d'amélioration mesurée.\nÉcart de F2 train/test : +6,9 points (semi-supervisé), +4,3 points (supervisé): Surapprentissage possible  pour le semi-supervisé",
+    "notes": "Source : 01_exploration_dataset.ipynb, cellules ee07cebf et cnn-comparaison-train-test, sorties enregistrées après alignement des labels. Test fort : 20 images, 10 normales et 10 cancéreuses. Les deux modèles affichent accuracy, F1, précision, rappel et F2 cancer égaux à 0,900. Matrice de confusion pour chacun : [[9,1],[1,9]], lignes = classes réelles, colonnes = classes prédites. Un faux positif et un faux négatif par modèle. L'égalité concerne les métriques et les effectifs des matrices sur ce petit test, sans prouver que les modèles ou leurs prédictions individuelles sont identiques. Aucun gain mesuré du semi-supervisé sur ce test. Train fort, 63 images : F2 semi de 0,969 et supervisé de 0,943. Écarts de F2 train moins test : +6,9 et +4,3 points. Ces écarts suggèrent un possible surapprentissage, à interpréter avec prudence sur 20 images de test.\n9"
+  },
+  {
+    "slide": 10,
+    "text": "Passage à l’échelle: Solution cloud\n10\nMon PC de référence\ni9-14900K\n24 cœurs physiques\nRAM mesurée : environ 3,2 Gio\npour le processus Python\nMachine AWS du devis\nc7i.12xlarge, Paris\n24 cœurs physiques, 48 vCPU\n96 Gio de RAM inclus\n2,28 € HT / heure, IPv4 comprise\nLa taille du CPU impose les 96 Gio. Le notebook utilise bien moins de RAM.\nMême nombre de cœurs. Débit à comparer avec le même code sur AWS.\nEstimation réalisée sur la base de ce test:\nNombre d'images traitées : 1000 \nDurée mesurée : 8.1 secondes \nEstimation pour 4 millions : 9.0 heures\nDéterminer la machine AWS et besoins en RAM",
+    "notes": "10"
+  },
+  {
+    "slide": 11,
+    "text": "Passage à l’échelle: Solution cloud\n\n11\n30 heures de VM, essais et entraînements inclus\n72,55 € HT\nUne seule fois\nMachine + IPv4\n30 h × 2,2798 €/h = 68,39 €\nDisque : 1 mois × 4,148 € = 4,15 €\nImages et accès : 0,01 €\n68,39 € + 4,15 € + 0,01 € = 72,55 €\nParis, prix HT du 09/10/2026. Conversion : 1 € = 1,1186 $. Main d’œuvre exclu.\nSource : AWS Price List, tarifs officiels\nCoût du prototype",
+    "notes": "11"
+  },
+  {
+    "slide": 12,
+    "text": "Passage à l’échelle: Solution cloud\n\n12\n\nEn une fois\n68,85 € HT\n4 millions au mois 1\nChaque mois, sur un an\n103,6 € HT\nEnviron 333 333 images / mois\nCalcul : 9 h × 2,2798 €/h = 20,51 €\nImages : 12 mois × 1,97815 € = 23,74 €\nDisque : 1 mois × 4,148 € = 4,15 €\nMain d’œuvre exclu\nCalcul : 9 h × 2,2798 €/h = 20,51 €\nStockage progressif des images : 12,86 €\nDisque : 12 mois × 4,148 € = 49,78 €\nAccès : 20,45 €\nSource : AWS Price List, tarifs officiels\nOn considère le modèle déjà entrainé donc seul le temps de traitement est considéré ici\nAccès : 20,45 €\nCoût pour 4 millions d'images",
+    "notes": "12"
+  },
+  {
+    "slide": 13,
+    "text": "Conditions du passage à l'échelle\n13\nBudget de 5 000 € : compatible avec le scénario estimé\nDébit : chronométrer le même traitement sur AWS pour valider les couts.\nRAM : lire les images par lots de 16 pour limiter sa consomation.\nCoûts : arrêter la VM entre les lots pour limiter les couts.\nQualité : contrôler les labels sur de nouvelles images: prévoir une partie du budget pour la labélisation.\nLes 20 images de test ne suffisent pas à valider 4 millions de labels.",
+    "notes": "13"
+  }
+]

@@ -1,0 +1,967 @@
+[
+  {
+    "slide": 1,
+    "shapes": [
+      {
+        "id": "1",
+        "name": "",
+        "text": ""
+      },
+      {
+        "id": null,
+        "name": null,
+        "text": ""
+      },
+      {
+        "id": "2",
+        "name": "ZoneTexte 1",
+        "text": "1"
+      },
+      {
+        "id": "3",
+        "name": "ZoneTexte 2",
+        "text": "BrainScanAI"
+      },
+      {
+        "id": "4",
+        "name": "ZoneTexte 3",
+        "text": "Apprentissage semi-supervisé"
+      },
+      {
+        "id": "5",
+        "name": "ZoneTexte 4",
+        "text": "CurelyticsIA, première phase de recherche"
+      },
+      {
+        "id": "6",
+        "name": "ZoneTexte 5",
+        "text": "Objectif (definition of done): \nAvoir un notebook reproductible \nComparer différentes approches (supervisées, semi-supervisées) et choisir la meilleure\nDéfinir les conditions du passage à l’échelle de 4M d’images à labeliser en respectant le budget de 5000€"
+      },
+      {
+        "id": "8",
+        "name": "Image 7",
+        "text": ""
+      },
+      {
+        "id": "9",
+        "name": "ZoneTexte 8",
+        "text": "Exemple du dossier sans label"
+      },
+      {
+        "id": "10",
+        "name": "ZoneTexte 9",
+        "text": "Synthèse du notebook et de la fiche d'auto-évaluation"
+      }
+    ]
+  },
+  {
+    "slide": 2,
+    "shapes": [
+      {
+        "id": "1",
+        "name": "",
+        "text": ""
+      },
+      {
+        "id": null,
+        "name": null,
+        "text": ""
+      },
+      {
+        "id": "2",
+        "name": "ZoneTexte 1",
+        "text": "Données disponibles et nettoyage"
+      },
+      {
+        "id": "3",
+        "name": "Connecteur droit 2",
+        "text": ""
+      },
+      {
+        "id": "4",
+        "name": "ZoneTexte 3",
+        "text": "2"
+      },
+      {
+        "id": "5",
+        "name": "ZoneTexte 4",
+        "text": "1 506 fichiers JPEG recensés"
+      },
+      {
+        "id": "6",
+        "name": "Tableau 5",
+        "text": "Ensemble\nAvant\nAprès filtrage\nCancer\n50\n50\nNormal\n50\n49\nSans label\n1 406\n1 311\nTotal\n1 506\n1 410"
+      },
+      {
+        "id": "7",
+        "name": "ZoneTexte 6",
+        "text": "96 copies écartées. Les images sources restent intactes."
+      },
+      {
+        "id": "9",
+        "name": "Image 8",
+        "text": ""
+      },
+      {
+        "id": "11",
+        "name": "Image 10",
+        "text": ""
+      },
+      {
+        "id": "12",
+        "name": "ZoneTexte 11",
+        "text": "Label normal"
+      },
+      {
+        "id": "13",
+        "name": "ZoneTexte 12",
+        "text": "Label cancer"
+      },
+      {
+        "id": "14",
+        "name": "ZoneTexte 13",
+        "text": "Échantillon de 100 images\n512 × 512 pixels, RGB\nAucune erreur de lecture\nPas de données manquantes identifiées"
+      },
+      {
+        "id": "15",
+        "name": "ZoneTexte 14",
+        "text": "Le descriptif annonce 1 500 JPEG. L'énoncé annonce des PNG."
+      }
+    ]
+  },
+  {
+    "slide": 3,
+    "shapes": [
+      {
+        "id": "1",
+        "name": "",
+        "text": ""
+      },
+      {
+        "id": null,
+        "name": null,
+        "text": ""
+      },
+      {
+        "id": "14",
+        "name": "ZoneTexte 13",
+        "text": "Prétraitement et extraction des features"
+      },
+      {
+        "id": "15",
+        "name": "Connecteur droit 14",
+        "text": ""
+      },
+      {
+        "id": "16",
+        "name": "ZoneTexte 15",
+        "text": "3"
+      },
+      {
+        "id": "17",
+        "name": "ZoneTexte 16",
+        "text": "Égalisation des histogrammes : redistribuer les intensités des pixels pour ajuster le contraste, avant la normalisation."
+      },
+      {
+        "id": "18",
+        "name": "Tableau 17",
+        "text": "Ordre du traitement\nOpération réalisée\n1. Égalisation\nAppliquer equalize aux images RGB en uint8.\n2. Prétraitement ImageNet\nRedimensionner à 256, recadrer à 224 × 224, normaliser.\n3. ResNet18 gelé\nExtraire les caractéristiques avec les poids IMAGENET1K_V1.\n4. Tableau de features\nConserver un vecteur de 512 dimensions et le chemin par image."
+      },
+      {
+        "id": "19",
+        "name": "ZoneTexte 18",
+        "text": "Productiond d’un CSV de 1 410 lignes, avec 512 features et le chemin de l’image"
+      },
+      {
+        "id": "20",
+        "name": "ZoneTexte 19",
+        "text": "Le traitement conserve les trois canaux RGB. Il ne supprime pas les images colorées ni les fichiers sources."
+      }
+    ]
+  },
+  {
+    "slide": 4,
+    "shapes": [
+      {
+        "id": "1",
+        "name": "",
+        "text": ""
+      },
+      {
+        "id": null,
+        "name": null,
+        "text": ""
+      },
+      {
+        "id": "2",
+        "name": "ZoneTexte 1",
+        "text": "Ensembles séparés avant le clustering"
+      },
+      {
+        "id": "3",
+        "name": "Connecteur droit 2",
+        "text": ""
+      },
+      {
+        "id": "4",
+        "name": "ZoneTexte 3",
+        "text": "4"
+      },
+      {
+        "id": "5",
+        "name": "ZoneTexte 4",
+        "text": "Données fortement labellisées : 99 images"
+      },
+      {
+        "id": "6",
+        "name": "Rectangle 5",
+        "text": "Train : 63"
+      },
+      {
+        "id": "7",
+        "name": "Rectangle 6",
+        "text": "Validation : 16"
+      },
+      {
+        "id": "8",
+        "name": "Rectangle 7",
+        "text": "Test : 20"
+      },
+      {
+        "id": "10",
+        "name": "ZoneTexte 9",
+        "text": "Données sans label : 1 311 images"
+      },
+      {
+        "id": "11",
+        "name": "Rectangle 10",
+        "text": "Train : 1 048"
+      },
+      {
+        "id": "12",
+        "name": "Rectangle 11",
+        "text": "Test : 263"
+      },
+      {
+        "id": "13",
+        "name": "ZoneTexte 12",
+        "text": "Le jeu de validation est réservé pour le choix des hyperparamètre du CNN\nStandardScaler standardise et apprend uniquement sur le jeu de données train sans label. \nPuis ce jeu voit ses dimensions réduites à 2 avec PCA\nLes autres ensembles utilisent transform pour standardiser les features avec les moyennes et écarts-types déjà appris. Puis pca.transform réduit ensuite les dimensions à 2."
+      }
+    ]
+  },
+  {
+    "slide": 5,
+    "shapes": [
+      {
+        "id": "1",
+        "name": "",
+        "text": ""
+      },
+      {
+        "id": null,
+        "name": null,
+        "text": ""
+      },
+      {
+        "id": "2",
+        "name": "ZoneTexte 1",
+        "text": "Clustering sur les coordonnées PCA"
+      },
+      {
+        "id": "3",
+        "name": "Connecteur droit 2",
+        "text": ""
+      },
+      {
+        "id": "4",
+        "name": "ZoneTexte 3",
+        "text": "5"
+      },
+      {
+        "id": "5",
+        "name": "ZoneTexte 4",
+        "text": "K-Means : deux groupes"
+      },
+      {
+        "id": "6",
+        "name": "ZoneTexte 5",
+        "text": "PCA : 512 features vers 2 coordonnées. Chaque point représente une image."
+      },
+      {
+        "id": "7",
+        "name": "Clustering K-Means — graphique modifiable",
+        "text": ""
+      },
+      {
+        "id": "8",
+        "name": "ZoneTexte 7",
+        "text": "Groupe 0 : 565 images. Groupe 1 : 483."
+      },
+      {
+        "id": "9",
+        "name": "ZoneTexte 8",
+        "text": "DBSCAN : neuf essais"
+      },
+      {
+        "id": "10",
+        "name": "ZoneTexte 9",
+        "text": "eps : rayon ; minimum : points voisins."
+      },
+      {
+        "id": "11",
+        "name": "Tableau 10",
+        "text": "eps\nMinimum\nGroupes\nHors groupe\n0,5\n3\n93\n368\n0,5\n5\n36\n706\n0,5\n10\n2\n1028\n1,0\n3\n15\n51\n1,0\n5\n8\n112\n1,0\n10\n12\n373\n2,0\n3\n1\n8\n2,0\n5\n1\n10\n2,0\n10\n1\n18"
+      },
+      {
+        "id": "12",
+        "name": "ZoneTexte 11",
+        "text": "2 groupes à eps = 0,5 / minimum = 10, mais 1 028 images hors groupe."
+      },
+      {
+        "id": "14",
+        "name": "ZoneTexte 13",
+        "text": "K-Means attribue un label faible à chaque image du train sans label."
+      }
+    ]
+  },
+  {
+    "slide": 6,
+    "shapes": [
+      {
+        "id": "1",
+        "name": "",
+        "text": ""
+      },
+      {
+        "id": null,
+        "name": null,
+        "text": ""
+      },
+      {
+        "id": "10",
+        "name": "ZoneTexte 9",
+        "text": "Test de la couche intermédiaire et ARI"
+      },
+      {
+        "id": "15",
+        "name": "Connecteur droit 14",
+        "text": ""
+      },
+      {
+        "id": "16",
+        "name": "ZoneTexte 15",
+        "text": "6"
+      },
+      {
+        "id": "18",
+        "name": "ZoneTexte 17",
+        "text": "Calcul de  l’ARI pour évaluer si les groupes créés par le clustering correspondent à la séparation « normal / cancer » des images labelisées\n\nComparaison avec la dernière couche et la couche intermédiaire"
+      },
+      {
+        "id": "19",
+        "name": "Tableau 18",
+        "text": "Extraction ResNet18\nDimensions du vecteur\nARI sur 79 labels forts\nlayer4\n512\n0,3773\nIntermédiaire : layer3\n256\n0,0339"
+      },
+      {
+        "id": "21",
+        "name": "ZoneTexte 20",
+        "text": "Choix : conserver layer4. Son ARI montre une meilleure correspondance avec les labels connus, qui reste cependant partielle."
+      },
+      {
+        "id": "22",
+        "name": "ZoneTexte 21",
+        "text": "ARI : train + validation forts. Test fort exclu. L'essai layer3 sert au clustering. Les CNN apprennent sur les images."
+      }
+    ]
+  },
+  {
+    "slide": 7,
+    "shapes": [
+      {
+        "id": "1",
+        "name": "",
+        "text": ""
+      },
+      {
+        "id": null,
+        "name": null,
+        "text": ""
+      },
+      {
+        "id": "2",
+        "name": "ZoneTexte 1",
+        "text": "Hyperparamètres et métriques de validation pour le CNN"
+      },
+      {
+        "id": "3",
+        "name": "Connecteur droit 2",
+        "text": ""
+      },
+      {
+        "id": "4",
+        "name": "ZoneTexte 3",
+        "text": "7"
+      },
+      {
+        "id": "5",
+        "name": "ZoneTexte 4",
+        "text": "Choix de rechercher un taux d’apprentissage (Trop grand, il peut rendre l’apprentissage instable ; trop petit, l’apprentissage avance lentement.) et le nombre d’époques (Plus d’époques permettent d’apprendre davantage, mais peuvent aussi favoriser le surapprentissage.)"
+      },
+      {
+        "id": "6",
+        "name": "Tableau 5",
+        "text": "Taux\nÉpoques fortes\nF2 semi\nF2 supervisé\n0,0001\n5\n0,5682\n0,5000\n0,0001\n10\n0,5682\n0,6250\n0,001\n5\n0,7143\n0,6579\n0,001\n10\n0,9524\n0,9756"
+      },
+      {
+        "id": "7",
+        "name": "ZoneTexte 6",
+        "text": "Labels faibles: utilisation de 5 époques\nLabels forts: Les deux recherches retiennent 0,001 et 10 époques fortes."
+      },
+      {
+        "id": "8",
+        "name": "ZoneTexte 7",
+        "text": "Sélection : meilleur F2 sur 16 labels forts de validation. Le test final reste réservé."
+      },
+      {
+        "id": "9",
+        "name": "ZoneTexte 8",
+        "text": "Accuracy : bonnes prédictions\n\nPrécision : fiabilité des prédictions cancer.\n\nRappel : cancers reconnus.\n\nF1 : équilibre précision/rappel.\n\nF2 : davantage de poids au rappel."
+      },
+      {
+        "id": "10",
+        "name": "Tableau 9",
+        "text": "Époques faibles\nAccuracy\n5\n1,0000\n10\n1,0000"
+      },
+      {
+        "id": "12",
+        "name": "ZoneTexte 11",
+        "text": "l’accuracy ici mesure l’accord avec les groupes K-Means"
+      }
+    ]
+  },
+  {
+    "slide": 8,
+    "shapes": [
+      {
+        "id": "1",
+        "name": "",
+        "text": ""
+      },
+      {
+        "id": null,
+        "name": null,
+        "text": ""
+      },
+      {
+        "id": "2",
+        "name": "ZoneTexte 1",
+        "text": "Comparaison des deux entraînements CNN"
+      },
+      {
+        "id": "3",
+        "name": "Connecteur droit 2",
+        "text": ""
+      },
+      {
+        "id": "4",
+        "name": "ZoneTexte 3",
+        "text": "8"
+      },
+      {
+        "id": "5",
+        "name": "ZoneTexte 4",
+        "text": "Semi-supervisé"
+      },
+      {
+        "id": "6",
+        "name": "Rectangle 5",
+        "text": "1 048 labels faibles\n5 époques"
+      },
+      {
+        "id": "7",
+        "name": "Rectangle 6",
+        "text": "63 labels forts\n10 époques"
+      },
+      {
+        "id": "8",
+        "name": "Connecteur droit avec flèche 7",
+        "text": ""
+      },
+      {
+        "id": "9",
+        "name": "ZoneTexte 8",
+        "text": "Le même CNN poursuit son entraînement.\nTest faible : accuracy de 0,977 sur 263 images (labels faibles)."
+      },
+      {
+        "id": "10",
+        "name": "ZoneTexte 9",
+        "text": "Supervisé"
+      },
+      {
+        "id": "11",
+        "name": "Rectangle 10",
+        "text": "63 labels forts\n10 époques"
+      },
+      {
+        "id": "12",
+        "name": "Rectangle 11",
+        "text": "Même test fort\n20 images"
+      },
+      {
+        "id": "13",
+        "name": "Connecteur droit 12",
+        "text": ""
+      },
+      {
+        "id": "14",
+        "name": "Connecteur droit 13",
+        "text": ""
+      },
+      {
+        "id": "15",
+        "name": "Connecteur droit avec flèche 14",
+        "text": ""
+      },
+      {
+        "id": "16",
+        "name": "Connecteur droit 15",
+        "text": ""
+      },
+      {
+        "id": "17",
+        "name": "Connecteur droit 16",
+        "text": ""
+      },
+      {
+        "id": "18",
+        "name": "Connecteur droit avec flèche 17",
+        "text": ""
+      },
+      {
+        "id": "19",
+        "name": "ZoneTexte 18",
+        "text": "ResNet18 conserve ses paramètres pré-entraînés, ses couches sont gelées. taux de 0,001 pour les trois phases. Seule sa dernière couche est entraînée pour classer les images en deux catégories."
+      }
+    ]
+  },
+  {
+    "slide": 9,
+    "shapes": [
+      {
+        "id": "1",
+        "name": "",
+        "text": ""
+      },
+      {
+        "id": null,
+        "name": null,
+        "text": ""
+      },
+      {
+        "id": "2",
+        "name": "ZoneTexte 1",
+        "text": "Résultats sur les mêmes 20 images de test"
+      },
+      {
+        "id": "3",
+        "name": "Connecteur droit 2",
+        "text": ""
+      },
+      {
+        "id": "4",
+        "name": "ZoneTexte 3",
+        "text": "9"
+      },
+      {
+        "id": "5",
+        "name": "Tableau 4",
+        "text": "Métrique\nSemi-supervisé\nSupervisé\nAccuracy\n0,850\n0,900\nF1 cancer\n0,842\n0,900\nPrécision cancer\n0,889\n0,900\nRappel cancer\n0,800\n0,900\nF2 cancer\n0,816\n0,900"
+      },
+      {
+        "id": "6",
+        "name": "ZoneTexte 5",
+        "text": "Semi supervisé"
+      },
+      {
+        "id": "7",
+        "name": "ZoneTexte 6",
+        "text": "Prédiction"
+      },
+      {
+        "id": "8",
+        "name": "Tableau 7",
+        "text": "Vrai\nnormal\ncancer\nnormal\n9\n1\ncancer\n2\n8"
+      },
+      {
+        "id": "9",
+        "name": "ZoneTexte 8",
+        "text": "Supervisé"
+      },
+      {
+        "id": "10",
+        "name": "ZoneTexte 9",
+        "text": "Prédiction"
+      },
+      {
+        "id": "11",
+        "name": "Tableau 10",
+        "text": "Vrai\nnormal\ncancer\nnormal\n9\n1\ncancer\n1\n9"
+      },
+      {
+        "id": "12",
+        "name": "ZoneTexte 11",
+        "text": "2 faux négatifs"
+      },
+      {
+        "id": "13",
+        "name": "ZoneTexte 12",
+        "text": "1 faux négatif"
+      },
+      {
+        "id": "14",
+        "name": "ZoneTexte 13",
+        "text": "Le supervisé obtient le meilleur F2 cancer dans cette expérience.\nAn noter un écart train/test suggérant un léger surapprentissage pour le semi-supervisé"
+      },
+      {
+        "id": "15",
+        "name": "ZoneTexte 14",
+        "text": "L'écart correspond à une image cancéreuse supplémentaire correctement reconnue."
+      }
+    ]
+  },
+  {
+    "slide": 10,
+    "shapes": [
+      {
+        "id": "1",
+        "name": "",
+        "text": ""
+      },
+      {
+        "id": null,
+        "name": null,
+        "text": ""
+      },
+      {
+        "id": "2",
+        "name": "ZoneTexte 1",
+        "text": "Machine AWS et besoins en RAM"
+      },
+      {
+        "id": "3",
+        "name": "Connecteur droit 2",
+        "text": ""
+      },
+      {
+        "id": "4",
+        "name": "ZoneTexte 3",
+        "text": "10"
+      },
+      {
+        "id": "10",
+        "name": "ZoneTexte 9",
+        "text": "Mon PC de référence"
+      },
+      {
+        "id": "12",
+        "name": "ZoneTexte 11",
+        "text": "i9-14900K\n24 cœurs physiques"
+      },
+      {
+        "id": "15",
+        "name": "ZoneTexte 14",
+        "text": "RAM mesurée : environ 3,2 Gio\npour le processus Python"
+      },
+      {
+        "id": "16",
+        "name": "ZoneTexte 15",
+        "text": "Machine AWS du devis"
+      },
+      {
+        "id": "17",
+        "name": "ZoneTexte 16",
+        "text": "c7i.12xlarge, Paris\n24 cœurs physiques, 48 vCPU"
+      },
+      {
+        "id": "18",
+        "name": "ZoneTexte 17",
+        "text": "96 Gio de RAM inclus\n2,28 € HT / heure, IPv4 comprise"
+      },
+      {
+        "id": "19",
+        "name": "ZoneTexte 18",
+        "text": "La taille du CPU impose les 96 Gio. Le notebook utilise bien moins de RAM."
+      },
+      {
+        "id": "20",
+        "name": "ZoneTexte 19",
+        "text": "Même nombre de cœurs. Débit à comparer avec le même code sur AWS."
+      },
+      {
+        "id": "5",
+        "name": "ZoneTexte 4",
+        "text": "Estimation réalisée sur la base de ce test:\nNombre d'images traitées : 1000 \nDurée mesurée : 8.1 secondes \nEstimation pour 4 millions : 9.0 heures"
+      }
+    ]
+  },
+  {
+    "slide": 11,
+    "shapes": [
+      {
+        "id": "1",
+        "name": "",
+        "text": ""
+      },
+      {
+        "id": null,
+        "name": null,
+        "text": ""
+      },
+      {
+        "id": "9",
+        "name": "ZoneTexte 8",
+        "text": "Coût du prototype"
+      },
+      {
+        "id": "10",
+        "name": "Connecteur droit 9",
+        "text": ""
+      },
+      {
+        "id": "11",
+        "name": "ZoneTexte 10",
+        "text": "11"
+      },
+      {
+        "id": "12",
+        "name": "ZoneTexte 11",
+        "text": "30 heures de VM, essais et entraînements inclus"
+      },
+      {
+        "id": "13",
+        "name": "ZoneTexte 12",
+        "text": "72,55 € HT"
+      },
+      {
+        "id": "14",
+        "name": "ZoneTexte 13",
+        "text": "Une seule fois"
+      },
+      {
+        "id": "15",
+        "name": "ZoneTexte 14",
+        "text": "Machine + IPv4"
+      },
+      {
+        "id": "20",
+        "name": "ZoneTexte 19",
+        "text": "30 h × 2,2798 €/h = 68,39 €"
+      },
+      {
+        "id": "21",
+        "name": "ZoneTexte 20",
+        "text": "Disque : 1 mois × 4,148 € = 4,15 €"
+      },
+      {
+        "id": "22",
+        "name": "ZoneTexte 21",
+        "text": "Images et accès : 0,01 €"
+      },
+      {
+        "id": "23",
+        "name": "ZoneTexte 22",
+        "text": "68,39 € + 4,15 € + 0,01 € = 72,55 €"
+      },
+      {
+        "id": "24",
+        "name": "ZoneTexte 23",
+        "text": "Paris, prix HT du 09/10/2026. Conversion : 1 € = 1,1186 $. Main d’œuvre exclu."
+      },
+      {
+        "id": "25",
+        "name": "ZoneTexte 24",
+        "text": "Source : AWS Price List, tarifs officiels"
+      }
+    ]
+  },
+  {
+    "slide": 12,
+    "shapes": [
+      {
+        "id": "1",
+        "name": "",
+        "text": ""
+      },
+      {
+        "id": null,
+        "name": null,
+        "text": ""
+      },
+      {
+        "id": "9",
+        "name": "ZoneTexte 8",
+        "text": "Coût pour 4 millions d'images"
+      },
+      {
+        "id": "10",
+        "name": "Connecteur droit 9",
+        "text": ""
+      },
+      {
+        "id": "11",
+        "name": "ZoneTexte 10",
+        "text": "12"
+      },
+      {
+        "id": "12",
+        "name": "ZoneTexte 11",
+        "text": ""
+      },
+      {
+        "id": "13",
+        "name": "ZoneTexte 12",
+        "text": "En une fois"
+      },
+      {
+        "id": "14",
+        "name": "ZoneTexte 13",
+        "text": "68,85 € HT"
+      },
+      {
+        "id": "15",
+        "name": "ZoneTexte 14",
+        "text": "4 millions au mois 1"
+      },
+      {
+        "id": "22",
+        "name": "ZoneTexte 21",
+        "text": "Chaque mois, sur un an"
+      },
+      {
+        "id": "23",
+        "name": "ZoneTexte 22",
+        "text": "103,6 € HT"
+      },
+      {
+        "id": "24",
+        "name": "ZoneTexte 23",
+        "text": "Environ 333 333 images / mois"
+      },
+      {
+        "id": "25",
+        "name": "ZoneTexte 24",
+        "text": "Calcul : 9 h × 2,2798 €/h = 20,51 €"
+      },
+      {
+        "id": "26",
+        "name": "ZoneTexte 25",
+        "text": "Images : 12 mois × 1,97815 € = 23,74 €"
+      },
+      {
+        "id": "27",
+        "name": "ZoneTexte 26",
+        "text": "Disque : 1 mois × 4,148 € = 4,15 €"
+      },
+      {
+        "id": "28",
+        "name": "ZoneTexte 27",
+        "text": "Main d’œuvre exclu"
+      },
+      {
+        "id": "29",
+        "name": "ZoneTexte 28",
+        "text": "Calcul : 9 h × 2,2798 €/h = 20,51 €"
+      },
+      {
+        "id": "30",
+        "name": "ZoneTexte 29",
+        "text": "Stockage progressif des images : 12,86 €"
+      },
+      {
+        "id": "31",
+        "name": "ZoneTexte 30",
+        "text": "Disque : 12 mois × 4,148 € = 49,78 €"
+      },
+      {
+        "id": "32",
+        "name": "ZoneTexte 31",
+        "text": "Accès : 20,45 €"
+      },
+      {
+        "id": "34",
+        "name": "ZoneTexte 33",
+        "text": "Source : AWS Price List, tarifs officiels"
+      },
+      {
+        "id": "3",
+        "name": "ZoneTexte 2",
+        "text": "On considère le modèle déjà entrainé donc seul le temps de traitement est considéré ici"
+      },
+      {
+        "id": "2",
+        "name": "ZoneTexte 1",
+        "text": "Accès : 20,45 €"
+      }
+    ]
+  },
+  {
+    "slide": 13,
+    "shapes": [
+      {
+        "id": "1",
+        "name": "",
+        "text": ""
+      },
+      {
+        "id": null,
+        "name": null,
+        "text": ""
+      },
+      {
+        "id": "2",
+        "name": "ZoneTexte 1",
+        "text": "Conditions du passage à l'échelle"
+      },
+      {
+        "id": "3",
+        "name": "Connecteur droit 2",
+        "text": ""
+      },
+      {
+        "id": "4",
+        "name": "ZoneTexte 3",
+        "text": "13"
+      },
+      {
+        "id": "5",
+        "name": "ZoneTexte 4",
+        "text": "Budget de 5 000 € : compatible avec le scénario estimé"
+      },
+      {
+        "id": "6",
+        "name": "ZoneTexte 5",
+        "text": "Débit : chronométrer le même traitement sur AWS."
+      },
+      {
+        "id": "7",
+        "name": "ZoneTexte 6",
+        "text": "RAM : lire les images par lots de 16."
+      },
+      {
+        "id": "14",
+        "name": "ZoneTexte 13",
+        "text": "Coûts : arrêter la VM entre les lots."
+      },
+      {
+        "id": "15",
+        "name": "ZoneTexte 14",
+        "text": "Qualité : contrôler les labels sur de nouvelles images: prévoir une partie du budget pour la labélisation."
+      },
+      {
+        "id": "16",
+        "name": "ZoneTexte 15",
+        "text": "Les 20 images de test ne suffisent pas à valider 4 millions de labels."
+      }
+    ]
+  }
+]
