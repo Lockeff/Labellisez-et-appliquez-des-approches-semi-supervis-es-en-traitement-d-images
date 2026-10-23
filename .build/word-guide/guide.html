@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Guide oral BrainScanAI et notions de machine learning supervisé</title>
+<style>
+  @page { size: A4; margin: 1.7cm 1.8cm; }
+  body { font-family: Aptos, Arial, sans-serif; color: #24313d; font-size: 10.5pt; line-height: 1.38; }
+  h1 { color: #123b5d; font-size: 20pt; margin: 0 0 10pt 0; padding-bottom: 5pt; border-bottom: 2px solid #168aad; page-break-after: avoid; }
+  h2 { color: #126782; font-size: 13.5pt; margin: 13pt 0 5pt 0; page-break-after: avoid; }
+  h3 { color: #123b5d; font-size: 11.5pt; margin: 10pt 0 4pt 0; page-break-after: avoid; }
+  p { margin: 0 0 7pt 0; }
+  ul, ol { margin: 3pt 0 8pt 18pt; padding-left: 10pt; }
+  li { margin-bottom: 3pt; }
+  .cover { text-align: center; padding-top: 145pt; page-break-after: always; }
+  .cover h1 { border: 0; font-size: 31pt; line-height: 1.1; margin-bottom: 18pt; }
+  .subtitle { color: #126782; font-size: 16pt; margin-bottom: 28pt; }
+  .meta { color: #4b5f6f; font-size: 11pt; margin-top: 11pt; }
+  .section { page-break-before: always; }
+  .part { page-break-before: always; }
+  .eyebrow { color: #168aad; font-weight: bold; letter-spacing: 0.6pt; text-transform: uppercase; font-size: 9pt; margin-bottom: 5pt; }
+  .lead { color: #123b5d; font-size: 12pt; line-height: 1.42; }
+  .note { border-left: 3px solid #168aad; padding-left: 9pt; margin: 8pt 0 10pt 0; }
+  .caution { border-left: 3px solid #d97706; padding-left: 9pt; margin: 8pt 0 10pt 0; }
+  .oral { border-left: 3px solid #70a288; padding-left: 10pt; }
+  .small { font-size: 9pt; color: #536575; }
+  .term { font-weight: bold; color: #123b5d; }
+  .toc a { color: #126782; text-decoration: none; }
+  .toc td { border: none; padding: 3pt 2pt; }
+  table { width: 100%; border-collapse: collapse; margin: 7pt 0 10pt 0; font-size: 9.4pt; page-break-inside: auto; }
+  th { background: #123b5d; color: #ffffff; text-align: left; font-weight: bold; padding: 5pt; border: 1px solid #8aa0b2; }
+  td { vertical-align: top; padding: 5pt; border: 1px solid #aebdca; }
+  tr { page-break-inside: avoid; }
+  .num { text-align: right; white-space: nowrap; }
+  .center { text-align: center; }
+  .glossary td:first-child { width: 27%; font-weight: bold; color: #123b5d; }
+  .source td:first-child { width: 35%; font-weight: bold; color: #123b5d; }
+  .avoid { page-break-inside: avoid; }
+  .page-break { page-break-before: always; }
+  code { font-family: Consolas, monospace; font-size: 9pt; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="eyebrow">CurelyticsIA · Projet BrainScanAI</div>
+  <h1>Guide oral BrainScanAI et notions de machine learning supervisé</h1>
+  <p class="subtitle">Explication simple et justification des 13 slides de la soutenance</p>
+  <p class="meta"><strong>Ronan Menguy</strong></p>
+  <p class="meta">Version vérifiée le 23 octobre 2026</p>
+  <p class="meta">Support de préparation pédagogique · Ne constitue pas une validation clinique</p>
+</div>
+
+<h1>Conclusion de la vérification</h1>
+<p class="lead">La présentation et le notebook sont cohérents sur les données, le prétraitement, le clustering, la séparation entraînement–validation–test, les essais contre le surapprentissage, les résultats finaux et les hypothèses de coût.</p>
+<p class="note"><strong>Point important sur le changement de PC.</strong> La slide 10 présente les mesures du « PC de référence » : 17,4 secondes pour 1 000 images, 19,4 heures estimées pour 4 millions d’images et environ 3,2 Gio de RAM. Une nouvelle exécution sur un autre ordinateur peut produire d’autres valeurs. Le processeur, le disque, la mémoire disponible, les versions logicielles et les tâches en cours influencent ces mesures. Cette différence est donc normale. Pour le coût final, le débit devra être mesuré directement sur AWS avec le même code.</p>
+<p>Le document explique d’abord chaque slide avec des mots simples. Il fournit ensuite un glossaire des notions principales du cours OpenClassrooms, puis un glossaire propre au projet BrainScanAI.</p>
+
+<h2>Comment utiliser ce guide</h2>
+<ul>
+  <li><strong>Ce que montre la slide</strong> sert à vérifier les chiffres et les éléments visibles.</li>
+  <li><strong>Ce que je peux dire à l’oral</strong> est un texte volontairement simple, à reformuler naturellement.</li>
+  <li><strong>Pourquoi ces choix</strong> donne les justifications à connaître pour répondre aux questions.</li>
+  <li>Le glossaire permet de réviser les définitions, notamment précision, rappel, faux positifs, faux négatifs, matrice de confusion et surapprentissage.</li>
+</ul>
+<p class="caution"><strong>Limite à rappeler pendant la soutenance.</strong> Il s’agit d’un travail exploratoire de recherche et développement. Les résultats obtenus sur 20 images de test ne permettent pas de revendiquer une validation clinique.</p>
+
+<h2>Sommaire</h2>
+<table class="toc">
+  <tr><td>Slides 1 à 3</td><td>Contexte, données, prétraitement et extraction des caractéristiques</td></tr>
+  <tr><td>Slides 4 à 6</td><td>Séparation des jeux, clustering et choix de la couche ResNet18</td></tr>
+  <tr><td>Slides 7 à 9</td><td>Hyperparamètres, surapprentissage, sélection et test final</td></tr>
+  <tr><td>Slides 10 à 13</td><td>Passage à l’échelle, coûts, conditions et limites</td></tr>
+  <tr><td>Glossaire du cours</td><td>Apprentissage supervisé, évaluation, optimisation, explicabilité et production</td></tr>
+  <tr><td>Glossaire du projet</td><td>Images, ResNet18, clustering, semi-supervisé et passage à l’échelle</td></tr>
+  <tr><td>Sources</td><td>Notebook, présentation et chapitres officiels OpenClassrooms</td></tr>
+</table>
+
+<div class="section" id="slide1">
+<div class="eyebrow">Slide 1</div>
+<h1>BrainScanAI : apprentissage semi-supervisé</h1>
+<h2>Ce que montre la slide</h2>
+<p>La slide présente BrainScanAI, un projet de première phase de recherche chez CurelyticsIA. Elle fixe trois objectifs :</p>
+<ul>
+  <li>obtenir un notebook reproductible, donc exécutable à nouveau et modifiable si le projet évolue ;</li>
+  <li>comparer une approche supervisée et une approche semi-supervisée avant de choisir ;</li>
+  <li>définir les conditions pour traiter 4 millions d’images avec un budget de 5 000 €.</li>
+</ul>
+<p>La slide montre aussi un exemple provenant du dossier d’images sans label et précise que la présentation synthétise le notebook et la fiche d’auto-évaluation.</p>
+<h2>Ce que je peux dire à l’oral</h2>
+<div class="oral">
+<p>« Je présente BrainScanAI, un projet exploratoire réalisé pour CurelyticsIA. L’objectif est d’étudier si l’intelligence artificielle peut aider à classer des images cérébrales comme normales ou cancéreuses.</p>
+<p>La difficulté principale est que la majorité des images n’a pas été étiquetée. J’ai donc comparé deux méthodes. La méthode supervisée apprend seulement avec les images dont la réponse est connue. La méthode semi-supervisée essaie aussi d’exploiter les nombreuses images sans label.</p>
+<p>J’ai défini trois critères de réussite : un notebook reproductible, une comparaison équitable des deux méthodes et une estimation réaliste du passage à 4 millions d’images dans un budget de 5 000 euros.</p>
+<p>Ce travail reste une étude de recherche. Il ne constitue pas une validation clinique et le modèle ne doit pas être utilisé seul pour établir un diagnostic. »</p>
+</div>
+<h2>Pourquoi ces choix</h2>
+<p>La reproductibilité permet de refaire les calculs et de faire évoluer le projet. Comparer les deux approches évite de supposer à l’avance que le semi-supervisé sera meilleur. Enfin, l’étude du passage à l’échelle répond au besoin métier : une méthode intéressante sur un petit jeu doit aussi rester réalisable sur plusieurs millions d’images.</p>
+</div>
+
+<div class="section" id="slide2">
+<div class="eyebrow">Slide 2</div>
+<h1>Données disponibles et nettoyage</h1>
+<h2>Ce que montre la slide</h2>
+<table>
+  <tr><th>Ensemble</th><th class="num">Avant</th><th class="num">Après filtrage</th></tr>
+  <tr><td>Cancer</td><td class="num">50</td><td class="num">50</td></tr>
+  <tr><td>Normal</td><td class="num">50</td><td class="num">49</td></tr>
+  <tr><td>Sans label</td><td class="num">1 406</td><td class="num">1 311</td></tr>
+  <tr><td><strong>Total</strong></td><td class="num"><strong>1 506</strong></td><td class="num"><strong>1 410</strong></td></tr>
+</table>
+<p>La slide précise que 96 copies ont été écartées sans supprimer les fichiers sources. L’échantillon contrôlé contient des images de 512 × 512 pixels en RGB et aucune erreur de lecture. Elle signale aussi une différence documentaire : le descriptif parle de 1 500 JPEG, l’énoncé évoque des PNG, alors que les fichiers recensés sont 1 506 JPEG.</p>
+<h2>Ce que je peux dire à l’oral</h2>
+<div class="oral">
+<p>« J’ai commencé par vérifier les fichiers réellement présents. J’ai trouvé 1 506 images JPEG : 50 avec le label cancer, 50 avec le label normal et 1 406 sans label.</p>
+<p>J’ai ensuite recherché les copies. J’en ai écarté 96 de l’analyse, sans supprimer les originaux. Il reste 1 410 images exploitables : 50 cancer, 49 normales et 1 311 sans label. Le nombre d’images normales passe de 50 à 49 parce qu’une copie a été exclue dans cette classe.</p>
+<p>Sur un échantillon de 100 images, les dimensions sont de 512 par 512 pixels, avec trois canaux de couleur RGB, et aucune erreur de lecture n’a été trouvée. J’ai enfin signalé la différence entre la documentation et les fichiers réels afin de garder une bonne traçabilité. »</p>
+</div>
+<h2>Pourquoi ces choix</h2>
+<p>Une copie présente dans plusieurs ensembles pourrait donner au modèle un avantage artificiel : il reconnaîtrait une image déjà vue au lieu de généraliser. Écarter les copies rend l’évaluation plus honnête. Les sources restent intactes pour permettre tout contrôle ultérieur.</p>
+</div>
+
+<div class="section" id="slide3">
+<div class="eyebrow">Slide 3</div>
+<h1>Prétraitement et extraction des features</h1>
+<h2>Ce que montre la slide</h2>
+<p>Les 1 410 images ont été vérifiées avec Pillow et Torchvision. Aucune image corrompue n’a été détectée. Le traitement suit quatre étapes :</p>
+<table>
+  <tr><th>Ordre</th><th>Opération réellement effectuée</th></tr>
+  <tr><td>1. Égalisation</td><td>Appliquer <code>equalize</code> aux images RGB en valeurs entières de 0 à 255 afin d’ajuster le contraste.</td></tr>
+  <tr><td>2. Prétraitement ImageNet</td><td>Redimensionner à 256 pixels, recadrer à 224 × 224 et normaliser les trois canaux selon les valeurs attendues.</td></tr>
+  <tr><td>3. ResNet18 gelé</td><td>Utiliser les poids <code>IMAGENET1K_V1</code> sans modifier les paramètres pré-entraînés.</td></tr>
+  <tr><td>4. Tableau de features</td><td>Conserver 512 valeurs et le chemin du fichier pour chaque image.</td></tr>
+</table>
+<p>Le résultat est un CSV de 1 410 lignes contenant 512 caractéristiques visuelles et le chemin de chaque image. Les trois canaux RGB et les fichiers sources sont conservés.</p>
+<h2>Ce que je peux dire à l’oral</h2>
+<div class="oral">
+<p>« Avant le traitement, j’ai vérifié que chaque fichier pouvait réellement être ouvert et décodé. J’ai utilisé Pillow et Torchvision, et aucune des 1 410 images n’est corrompue.</p>
+<p>J’applique ensuite une égalisation des histogrammes pour ajuster le contraste. Les images sont redimensionnées à 256 pixels, recadrées à 224 par 224 et normalisées comme le demande ResNet18. Les trois canaux rouge, vert et bleu sont conservés.</p>
+<p>ResNet18 est un réseau déjà entraîné sur ImageNet. Je ne lui demande pas de poser un diagnostic : je l’utilise pour transformer chaque image en une liste de 512 nombres qui résume ses caractéristiques visuelles.</p>
+<p>Je sauvegarde enfin ces 512 valeurs et le chemin de l’image dans un CSV, avec une ligne par image. »</p>
+</div>
+<h2>Pourquoi ces choix</h2>
+<p>Le contrôle d’intégrité évite qu’un fichier illisible interrompe le traitement ou produise un résultat invalide. Le format 224 × 224 et la normalisation sont ceux attendus par ResNet18.</p>
+<p>ResNet18 offre un compromis raisonnable entre richesse des caractéristiques et coût de calcul. Ses poids sont gelés afin de conserver ce qu’il a déjà appris, de réduire le calcul et de limiter le risque de surapprentissage avec seulement 99 labels forts. Les 512 valeurs sont plus faciles à exploiter que les pixels bruts.</p>
+</div>
+
+<div class="section" id="slide4">
+<div class="eyebrow">Slide 4</div>
+<h1>Ensembles séparés avant le clustering</h1>
+<h2>Ce que montre la slide</h2>
+<table>
+  <tr><th>Type de données</th><th>Entraînement</th><th>Validation</th><th>Test</th></tr>
+  <tr><td>99 images fortement labellisées</td><td class="num">63</td><td class="num">16</td><td class="num">20</td></tr>
+  <tr><td>1 311 images sans label</td><td class="num">1 048</td><td class="center">—</td><td class="num">263</td></tr>
+</table>
+<p>Le <code>StandardScaler</code> apprend les moyennes et écarts-types uniquement sur les 1 048 images sans label d’entraînement. La PCA est également ajustée uniquement sur ce même ensemble afin de passer de 512 caractéristiques à deux coordonnées. Les autres ensembles réutilisent ces paramètres avec <code>transform</code> et <code>pca.transform</code>.</p>
+<h2>Ce que je peux dire à l’oral</h2>
+<div class="oral">
+<p>« J’ai séparé les données avant de construire les groupes. Pour les 99 images dont le vrai label est connu, 63 servent à apprendre, 16 à choisir les réglages et 20 à réaliser l’évaluation finale.</p>
+<p>Pour les 1 311 images sans label, 1 048 servent à construire les groupes et 263 sont mises de côté.</p>
+<p>La standardisation place les 512 caractéristiques sur des échelles comparables. Elle apprend uniquement sur les données d’entraînement. La PCA apprend aussi uniquement sur cet ensemble, puis résume les 512 caractéristiques avec deux coordonnées. Les autres jeux réutilisent les transformations déjà apprises : ils ne participent pas à leur calcul. »</p>
+</div>
+<h2>Pourquoi ces choix</h2>
+<p>Cette organisation évite une fuite de données. Le jeu de validation sert à choisir les réglages. Le jeu de test reste indépendant jusqu’à la mesure finale. La réduction à deux dimensions permet de visualiser les données et d’appliquer les méthodes de regroupement prévues dans le notebook.</p>
+</div>
+
+<div class="section" id="slide5">
+<div class="eyebrow">Slide 5</div>
+<h1>Clustering sur les coordonnées PCA</h1>
+<h2>Ce que montre la slide</h2>
+<p>Après réduction de 512 caractéristiques à deux coordonnées, K-Means crée deux groupes parmi les 1 048 images sans label d’entraînement : 565 images dans le groupe 0 et 483 dans le groupe 1.</p>
+<p>Neuf réglages de DBSCAN sont comparés :</p>
+<table>
+  <tr><th><code>eps</code></th><th>Minimum de voisins</th><th>Groupes</th><th>Images hors groupe</th></tr>
+  <tr><td class="num">0,5</td><td class="num">3</td><td class="num">93</td><td class="num">368</td></tr>
+  <tr><td class="num">0,5</td><td class="num">5</td><td class="num">36</td><td class="num">706</td></tr>
+  <tr><td class="num">0,5</td><td class="num">10</td><td class="num">2</td><td class="num">1 028</td></tr>
+  <tr><td class="num">1,0</td><td class="num">3</td><td class="num">15</td><td class="num">51</td></tr>
+  <tr><td class="num">1,0</td><td class="num">5</td><td class="num">8</td><td class="num">112</td></tr>
+  <tr><td class="num">1,0</td><td class="num">10</td><td class="num">12</td><td class="num">373</td></tr>
+  <tr><td class="num">2,0</td><td class="num">3</td><td class="num">1</td><td class="num">8</td></tr>
+  <tr><td class="num">2,0</td><td class="num">5</td><td class="num">1</td><td class="num">10</td></tr>
+  <tr><td class="num">2,0</td><td class="num">10</td><td class="num">1</td><td class="num">18</td></tr>
+</table>
+<p>Le réglage DBSCAN qui produit deux groupes laisse 1 028 images hors groupe. K-Means est donc retenu pour attribuer un label faible à chacune des 1 048 images.</p>
+<h2>Ce que je peux dire à l’oral</h2>
+<div class="oral">
+<p>« Le clustering regroupe automatiquement les images qui se ressemblent, sans connaître leur vraie classe.</p>
+<p>K-Means reçoit la consigne de créer deux groupes, car le problème comporte deux catégories. Il place 565 images dans le premier groupe et 483 dans le second.</p>
+<p>DBSCAN cherche plutôt des zones denses. J’ai testé neuf réglages. Le paramètre <code>eps</code> est le rayon utilisé pour rechercher les voisins ; le minimum indique combien de voisins sont nécessaires. DBSCAN peut bien produire deux groupes, mais il laisse alors 1 028 images sans groupe.</p>
+<p>Je retiens donc K-Means, car chaque image reçoit un groupe. Ce groupe devient un label faible : c’est une estimation automatique utile pour l’apprentissage, pas une vérité médicale. »</p>
+</div>
+<h2>Pourquoi ces choix</h2>
+<p>Deux groupes correspondent aux deux classes prévues par le projet. K-Means est retenu parce qu’il permet d’utiliser toutes les images sans label d’entraînement. DBSCAN reste une comparaison utile, mais ses résultats ne permettent pas d’attribuer un label faible à l’ensemble des images.</p>
+</div>
+
+<div class="section" id="slide6">
+<div class="eyebrow">Slide 6</div>
+<h1>Test de la couche intermédiaire et ARI</h1>
+<h2>Ce que montre la slide</h2>
+<table>
+  <tr><th>Extraction ResNet18</th><th>Dimensions du vecteur</th><th>ARI sur 79 labels forts</th></tr>
+  <tr><td><code>layer4</code></td><td class="num">512</td><td class="num">0,3773</td></tr>
+  <tr><td>Couche intermédiaire <code>layer3</code></td><td class="num">256</td><td class="num">0,0339</td></tr>
+</table>
+<p>L’ARI compare les groupes automatiques avec les labels normal/cancer. Il est calculé sur les 63 labels d’entraînement et les 16 labels de validation, soit 79 images. Les 20 images du test fort restent exclues. <code>layer4</code> est conservée.</p>
+<h2>Ce que je peux dire à l’oral</h2>
+<div class="oral">
+<p>« J’ai vérifié si une couche intermédiaire de ResNet18 pouvait créer des groupes plus proches des vrais labels.</p>
+<p>L’ARI mesure la correspondance entre les groupes automatiques et les labels connus. Une valeur proche de 1 indique une très bonne correspondance. Une valeur proche de 0 signifie que l’accord ressemble davantage au hasard.</p>
+<p><code>layer4</code> donne un ARI de 0,3773 avec 512 caractéristiques, contre seulement 0,0339 pour <code>layer3</code> avec 256 caractéristiques. Je conserve donc <code>layer4</code>.</p>
+<p>Le score de 0,3773 reste modéré : les groupes ne reproduisent que partiellement la séparation normal/cancer. Je ne présente pas le clustering comme une vérité médicale. Le test final n’a pas servi à faire ce choix. »</p>
+</div>
+<h2>Pourquoi ces choix</h2>
+<p>Comparer les couches permet de prendre une décision mesurée plutôt qu’arbitraire. Le test fort reste exclu afin de préserver une évaluation finale indépendante. Plus précisément, « dernière couche » signifie ici les caractéristiques issues de <code>layer4</code> après l’agrégation finale ; la couche de classification d’origine de ResNet18 a été remplacée.</p>
+</div>
+
+<div class="section" id="slide7">
+<div class="eyebrow">Slide 7</div>
+<h1>Hyperparamètres et métriques de validation pour le CNN</h1>
+<h2>Ce que montre la slide</h2>
+<table>
+  <tr><th>Taux d’apprentissage</th><th>Époques fortes</th><th>F2 semi-supervisé</th><th>F2 supervisé</th></tr>
+  <tr><td class="num">0,0001</td><td class="num">5</td><td class="num">0,4054</td><td class="num">0,5000</td></tr>
+  <tr><td class="num">0,0001</td><td class="num">10</td><td class="num">0,5263</td><td class="num">0,6250</td></tr>
+  <tr><td class="num">0,001</td><td class="num">5</td><td class="num">0,5263</td><td class="num">0,6579</td></tr>
+  <tr><td class="num">0,001</td><td class="num">10</td><td class="num"><strong>0,8537</strong></td><td class="num"><strong>0,9756</strong></td></tr>
+</table>
+<p>Pour les labels faibles, 5 et 10 époques donnent une accuracy de 1,0000. Cinq époques sont retenues, car dix n’apportent pas de gain. Pour les labels forts, les deux recherches retiennent un taux de 0,001 et 10 époques. La sélection repose sur le F2 des 16 images de validation ; le test final reste réservé.</p>
+<h2>Ce que je peux dire à l’oral</h2>
+<div class="oral">
+<p>« Un hyperparamètre est un réglage choisi avant l’entraînement. Je compare deux taux d’apprentissage : 0,0001 et 0,001. Ce taux règle la taille des corrections du réseau. Trop grand, l’apprentissage peut devenir instable ; trop petit, il avance lentement.</p>
+<p>Je compare aussi 5 et 10 époques. Une époque est un passage complet sur les données d’entraînement. Davantage d’époques peut permettre d’apprendre plus, mais aussi augmenter le risque de surapprentissage.</p>
+<p>Pour les labels faibles, 5 et 10 époques donnent la même accuracy de 1. Je garde donc 5 époques pour éviter du calcul inutile. Cette accuracy mesure seulement l’accord avec les groupes K-Means, pas la qualité médicale des labels.</p>
+<p>Pour la phase avec les vrais labels, la meilleure combinaison est 0,001 et 10 époques pour les deux modèles. Je choisis avec le F2 sur la validation, sans regarder le test. »</p>
+</div>
+<h2>Pourquoi ces choix</h2>
+<p>Le F2 donne davantage de poids au rappel qu’à la précision. Ici, manquer une image cancéreuse, donc produire un faux négatif, est l’erreur que l’on cherche particulièrement à limiter. Tester les mêmes combinaisons pour les deux méthodes rend leur comparaison plus équitable.</p>
+<h3>Les métriques indiquées sur la slide</h3>
+<ul>
+  <li><strong>Accuracy :</strong> proportion totale de bonnes prédictions.</li>
+  <li><strong>Précision cancer :</strong> parmi les images annoncées cancer, proportion réellement cancer.</li>
+  <li><strong>Rappel cancer :</strong> parmi les images réellement cancer, proportion reconnue.</li>
+  <li><strong>F1 :</strong> équilibre égal entre précision et rappel.</li>
+  <li><strong>F2 :</strong> combinaison qui donne davantage d’importance au rappel.</li>
+</ul>
+</div>
+
+<div class="section" id="slide8">
+<div class="eyebrow">Slide 8</div>
+<h1>Entraînements et diagnostic sur l’ensemble de validation</h1>
+<h2>Ce que montre la slide</h2>
+<table>
+  <tr><th>Modèle</th><th>Entraînement</th><th>Validation forte</th><th>Écart train − validation</th><th>Diagnostic</th></tr>
+  <tr><td>Semi-supervisé</td><td class="num">F2 = 0,969</td><td class="num">F2 = 0,854</td><td class="num">+11,5 points</td><td>Surapprentissage possible</td></tr>
+  <tr><td>Supervisé</td><td class="num">F2 = 0,943</td><td class="num">F2 = 0,976</td><td class="num">−3,2 points</td><td>Aucun surapprentissage observé</td></tr>
+</table>
+<p>Le semi-supervisé apprend d’abord sur 1 048 labels faibles pendant 5 époques, puis sur 63 labels forts pendant 10 époques. Le supervisé apprend seulement sur les 63 labels forts pendant 10 époques. Les deux sont diagnostiqués sur les 16 images de validation forte. Un dropout de 20 % et une régularisation L2 sont testés uniquement sur le semi-supervisé.</p>
+<h2>Ce que je peux dire à l’oral</h2>
+<div class="oral">
+<p>« Pour rechercher le surapprentissage, je compare le F2 d’entraînement avec le F2 de validation.</p>
+<p>Le modèle semi-supervisé passe de 0,969 sur l’entraînement à 0,854 sur la validation, soit une baisse de 11,5 points. Cela indique un surapprentissage possible : il réussit mieux sur les exemples qu’il a déjà vus.</p>
+<p>Le modèle supervisé obtient 0,943 sur l’entraînement et 0,976 sur la validation. Je n’observe donc pas de surapprentissage pour lui. Avec seulement 16 images, un score de validation légèrement supérieur peut arriver.</p>
+<p>J’ai testé deux techniques uniquement sur le semi-supervisé, car c’est lui qui présente le problème. Le dropout de 20 % désactive au hasard une partie des neurones pendant l’entraînement. La régularisation L2 pénalise les poids trop grands pour encourager une solution plus simple. Ces essais sont évalués sur la validation, jamais sur le test. »</p>
+</div>
+<h2>Pourquoi ces choix</h2>
+<p>Le diagnostic reste présenté pour les deux modèles afin de montrer pourquoi le traitement ne concerne que le semi-supervisé. Le dropout de 20 % est un essai modéré : il cherche à réduire la dépendance à quelques neurones sans retirer trop d’information. Le résultat de validation décide ensuite si chaque méthode doit être conservée.</p>
+</div>
+
+<div class="section" id="slide9">
+<div class="eyebrow">Slide 9</div>
+<h1>Sélection sur validation et résultats finaux sur l’ensemble de test</h1>
+<h2>Choix de la version semi-supervisée sur la validation</h2>
+<table>
+  <tr><th>Version</th><th>F2 cancer sur validation</th><th>Décision</th></tr>
+  <tr><td>Modèle initial</td><td class="num"><strong>0,854</strong></td><td>Conservé</td></tr>
+  <tr><td>Dropout de 20 %</td><td class="num">0,526</td><td>Écarté : performance trop réduite</td></tr>
+  <tr><td>Régularisation L2</td><td class="num">0,641</td><td>Écartée : performance réduite</td></tr>
+</table>
+<h2>Résultats finaux sur les 20 images de test</h2>
+<table>
+  <tr><th>Métrique</th><th>Semi-supervisé initial</th><th>Supervisé initial</th></tr>
+  <tr><td>Accuracy</td><td class="num">0,900</td><td class="num">0,900</td></tr>
+  <tr><td>F1 cancer</td><td class="num">0,900</td><td class="num">0,900</td></tr>
+  <tr><td>Précision cancer</td><td class="num">0,900</td><td class="num">0,900</td></tr>
+  <tr><td>Rappel cancer</td><td class="num">0,900</td><td class="num">0,900</td></tr>
+  <tr><td>F2 cancer</td><td class="num">0,900</td><td class="num">0,900</td></tr>
+</table>
+<p>Les deux matrices de confusion sont identiques : 9 images normales bien classées, 9 images cancéreuses bien classées, 1 faux positif et 1 faux négatif.</p>
+<h2>Ce que je peux dire à l’oral</h2>
+<div class="oral">
+<p>« Les choix sont faits sur la validation. Le semi-supervisé initial obtient un F2 de 0,854. Avec dropout, le score tombe à 0,526 ; avec L2, il tombe à 0,641. Ces techniques sont souvent utiles, mais pas automatiquement meilleures. Ici, elles dégradent le résultat, donc je conserve la version initiale.</p>
+<p>Une fois tous les choix terminés, j’évalue les deux modèles une seule fois sur les 20 images de test. Ils obtiennent tous les deux 0,900 pour l’accuracy, la précision, le rappel, le F1 et le F2 cancer.</p>
+<p>Dans chaque matrice, 18 images sur 20 sont bien classées. Un faux positif est une image normale annoncée cancéreuse. Un faux négatif est une image cancéreuse annoncée normale. Le faux négatif est particulièrement sensible, car un cas potentiellement cancéreux pourrait ne pas être signalé. »</p>
+</div>
+<h2>Pourquoi ces choix</h2>
+<p>Les régularisations sont acceptées ou rejetées sur la validation. Le test ne sert pas à essayer des solutions, sinon il ne serait plus indépendant. Les deux modèles sont à égalité sur ce petit test : il serait incorrect d’affirmer que l’un est supérieur. Avec 20 images, une seule erreur représente déjà 5 points de pourcentage.</p>
+</div>
+
+<div class="section" id="slide10">
+<div class="eyebrow">Slide 10</div>
+<h1>Passage à l’échelle : solution cloud</h1>
+<h2>Ce que montre la slide</h2>
+<table>
+  <tr><th>PC de référence</th><th>Machine AWS étudiée</th></tr>
+  <tr><td>Intel Core i9-14900K<br>24 cœurs physiques<br>Environ 3,2 Gio de RAM pour Python</td><td><code>c7i.12xlarge</code>, région Paris<br>48 vCPU, soit 24 cœurs physiques<br>96 Gio de RAM inclus<br>2,28 € HT par heure, IPv4 comprise</td></tr>
+</table>
+<p>Le benchmark du PC de référence traite 1 000 images en 17,4 secondes. Une extrapolation proportionnelle donne 19,4 heures pour 4 millions d’images. Le notebook utilise beaucoup moins que les 96 Gio fournis par AWS ; cette quantité est liée à la configuration commerciale de l’instance choisie.</p>
+<h2>Ce que je peux dire à l’oral</h2>
+<div class="oral">
+<p>« Sur mon PC de référence, équipé d’un i9-14900K à 24 cœurs, 1 000 images ont été traitées en 17,4 secondes avec environ 3,2 Gio de mémoire pour le processus Python. En prolongeant cette mesure de façon proportionnelle, j’obtiens une première estimation de 19,4 heures pour 4 millions d’images.</p>
+<p>J’ai recherché une machine AWS avec un nombre comparable de cœurs physiques. La <code>c7i.12xlarge</code> fournit 48 vCPU, soit 24 cœurs physiques, et 96 Gio de RAM. Le notebook n’a pas besoin de 96 Gio : cette mémoire est incluse avec cette taille de processeur.</p>
+<p>Les valeurs affichées sont celles du PC de référence. Une relance sur un autre ordinateur peut donner un autre temps et une autre consommation mémoire. Ce n’est pas une erreur du modèle. Le débit dépend du matériel et de l’environnement. Il faut donc chronométrer le même code sur AWS avant de confirmer le coût. »</p>
+</div>
+<h2>Pourquoi ces choix</h2>
+<p>Comparer le nombre de cœurs donne un premier ordre de grandeur, mais ne garantit pas un débit identique. Le processeur, le disque, la virtualisation et les bibliothèques peuvent changer la vitesse. L’estimation de 19,4 heures sert au devis ; elle n’est pas une durée garantie.</p>
+</div>
+
+<div class="section" id="slide11">
+<div class="eyebrow">Slide 11</div>
+<h1>Coût du prototype</h1>
+<h2>Ce que montre la slide</h2>
+<table>
+  <tr><th>Poste</th><th>Calcul</th><th>Montant HT</th></tr>
+  <tr><td>Machine et IPv4</td><td>30 h × 2,2798 €/h</td><td class="num">68,39 €</td></tr>
+  <tr><td>Disque</td><td>Un mois</td><td class="num">4,15 €</td></tr>
+  <tr><td>Images et accès</td><td>Faible volume du prototype</td><td class="num">0,01 €</td></tr>
+  <tr><td><strong>Total</strong></td><td>Une seule fois</td><td class="num"><strong>72,55 €</strong></td></tr>
+</table>
+<p>L’hypothèse est de 30 heures de machine virtuelle, essais et entraînements inclus. Les prix sont ceux de Paris au 9 octobre 2026, avec une conversion de 1 € = 1,1186 $. La main-d’œuvre est exclue.</p>
+<h2>Ce que je peux dire à l’oral</h2>
+<div class="oral">
+<p>« Pour le prototype, je ne compte pas seulement le traitement final. Je prévois 30 heures de machine virtuelle pour inclure les essais et les entraînements.</p>
+<p>La machine et l’adresse IPv4 coûtent 68,39 euros. J’ajoute 4,15 euros pour un mois de disque et environ un centime pour les images et les accès du prototype. Le total estimé est de 72,55 euros hors taxes.</p>
+<p>J’ai utilisé les tarifs officiels AWS de la région de Paris au 9 octobre 2026 et le taux de conversion indiqué. Cette estimation couvre l’infrastructure, mais pas le temps de travail du data scientist, des spécialistes cloud ou des professionnels de santé. »</p>
+</div>
+<h2>Pourquoi ces choix</h2>
+<p>Les 30 heures ajoutent une marge réaliste pour les essais et les relances. Distinguer machine, disque et accès rend le calcul vérifiable. La date, la région, le taux de change et l’exclusion de la main-d’œuvre évitent de présenter ce montant comme le coût complet et définitif du projet.</p>
+</div>
+
+<div class="section" id="slide12">
+<div class="eyebrow">Slide 12</div>
+<h1>Coût pour 4 millions d’images</h1>
+<h2>Ce que montre la slide</h2>
+<p>Les deux scénarios considèrent que le modèle est déjà entraîné. Ils évaluent uniquement le traitement des images.</p>
+<table>
+  <tr><th>Poste</th><th>Tout traiter au mois 1</th><th>Traiter chaque mois pendant un an</th></tr>
+  <tr><td>Calcul</td><td class="num">44,23 €</td><td class="num">44,23 €</td></tr>
+  <tr><td>Images / stockage</td><td class="num">23,74 €</td><td class="num">12,86 €</td></tr>
+  <tr><td>Disque de travail</td><td class="num">4,15 €</td><td class="num">49,78 €</td></tr>
+  <tr><td>Accès</td><td class="num">20,45 €</td><td class="num">20,45 €</td></tr>
+  <tr><td><strong>Total HT</strong></td><td class="num"><strong>92,56 €</strong></td><td class="num"><strong>127,32 €</strong></td></tr>
+</table>
+<p>Le calcul repose sur 19,4 heures × 2,2798 €/h = 44,23 €. Dans le scénario mensuel, environ 333 333 images sont traitées chaque mois.</p>
+<h2>Ce que je peux dire à l’oral</h2>
+<div class="oral">
+<p>« Je compare deux organisations. Dans la première, les 4 millions d’images sont traitées en une seule fois. Le total estimé est de 92,56 euros hors taxes.</p>
+<p>Dans la seconde, environ 333 333 images sont traitées chaque mois pendant un an. Le temps total de calcul reste 19,4 heures dans l’hypothèse, mais le disque de travail est conservé plus longtemps. Le total atteint alors 127,32 euros hors taxes.</p>
+<p>Le scénario mensuel est un peu plus cher principalement parce que certaines ressources restent disponibles pendant douze mois. Il peut cependant être plus pratique si les images arrivent progressivement.</p>
+<p>Dans les deux scénarios, je considère le modèle déjà entraîné. Le nouvel entraînement, le travail humain et le contrôle médical ne sont pas inclus. »</p>
+</div>
+<h2>Pourquoi ces choix</h2>
+<p>Comparer les deux scénarios montre que l’organisation du traitement influence le coût. Le traitement en une fois est moins cher selon les hypothèses retenues ; le traitement mensuel répond mieux à une arrivée progressive des données. Ces montants concernent la labellisation par IA, pas l’annotation humaine ni le coût complet d’un système médical en production.</p>
+</div>
+
+<div class="section" id="slide13">
+<div class="eyebrow">Slide 13</div>
+<h1>Conditions du passage à l’échelle</h1>
+<h2>Ce que montre la slide</h2>
+<p>Le budget de 5 000 € est compatible avec le scénario estimé, à condition de :</p>
+<ul>
+  <li>mesurer le débit réel du même traitement sur AWS ;</li>
+  <li>lire les images par lots de 16 pour limiter la consommation de mémoire ;</li>
+  <li>arrêter la machine virtuelle entre les traitements pour éviter une facturation inutile ;</li>
+  <li>contrôler les labels sur de nouvelles images et réserver une partie du budget au contrôle humain.</li>
+</ul>
+<p>La slide rappelle que 20 images de test ne suffisent pas à valider 4 millions de labels.</p>
+<h2>Ce que je peux dire à l’oral</h2>
+<div class="oral">
+<p>« Selon cette estimation, le budget de 5 000 euros est compatible avec le coût informatique. Mais cette conclusion dépend de plusieurs conditions.</p>
+<p>Il faut d’abord chronométrer le même traitement sur AWS afin de remplacer l’extrapolation de mon PC par une mesure réelle. Je recommande ensuite de lire les images par lots de 16 pour ne pas tout charger en mémoire. Il faut aussi arrêter la machine virtuelle dès que le traitement est terminé, car une machine laissée active continue à être facturée.</p>
+<p>Enfin, il faut contrôler la qualité des labels sur de nouvelles images et prévoir une partie du budget pour une validation humaine. Un coût informatique faible ne garantit pas des prédictions correctes.</p>
+<p>Les 20 images de test permettent une première comparaison pédagogique, mais elles ne suffisent pas pour garantir 4 millions de décisions ni pour valider un usage clinique. »</p>
+</div>
+<h2>Pourquoi ces choix</h2>
+<p>Le benchmark AWS réduit l’incertitude sur la durée et le coût. Les lots de 16 limitent la mémoire. L’arrêt des machines évite les dépenses inutiles. Le contrôle humain mesure la qualité réelle et empêche de transformer des prédictions incertaines en vérités supposées. La faisabilité dépend donc à la fois du coût technique et du niveau de qualité attendu.</p>
+</div>
+
+<div class="part">
+<div class="eyebrow">Révisions</div>
+<h1>Glossaire des concepts principaux du cours OpenClassrooms</h1>
+<p>Les définitions ci-dessous sont reformulées en langage simple à partir du cours <em>Maîtrisez l’apprentissage supervisé</em>. Elles ne reproduisent pas le texte du cours. Les notions spécifiques à BrainScanAI sont regroupées dans la partie suivante.</p>
+
+<h2>1. Notions fondamentales</h2>
+<table class="glossary">
+  <tr><th>Terme</th><th>Définition simple</th></tr>
+  <tr><td>Intelligence artificielle</td><td>Ensemble de techniques qui permettent à une machine d’accomplir des tâches demandant habituellement une forme de raisonnement humain.</td></tr>
+  <tr><td>Machine learning</td><td>Domaine de l’IA dans lequel un programme apprend des relations à partir de données, au lieu de suivre seulement des règles écrites à la main.</td></tr>
+  <tr><td>Apprentissage supervisé</td><td>Méthode dans laquelle le modèle apprend avec des exemples dont la réponse correcte est déjà connue.</td></tr>
+  <tr><td>Jeu de données ou dataset</td><td>Ensemble des exemples utilisés dans un projet de machine learning.</td></tr>
+  <tr><td>Observation ou échantillon</td><td>Un exemple du jeu de données, comme une image, une personne ou une transaction.</td></tr>
+  <tr><td>Feature, caractéristique ou variable X</td><td>Information fournie au modèle pour l’aider à prédire.</td></tr>
+  <tr><td>Cible ou target y</td><td>Valeur que le modèle doit apprendre à prédire.</td></tr>
+  <tr><td>Label ou étiquette</td><td>Réponse connue associée à une observation dans une classification.</td></tr>
+  <tr><td>Classe</td><td>Une des catégories que le modèle peut prédire.</td></tr>
+  <tr><td>Algorithme</td><td>Méthode de calcul utilisée pour apprendre à partir des données.</td></tr>
+  <tr><td>Modèle</td><td>Résultat obtenu après l’entraînement d’un algorithme sur les données.</td></tr>
+  <tr><td>Entraînement</td><td>Phase durant laquelle le modèle ajuste ses paramètres en observant les exemples et leurs réponses.</td></tr>
+  <tr><td>Prédiction</td><td>Réponse produite par le modèle pour une observation.</td></tr>
+  <tr><td>Inférence</td><td>Utilisation d’un modèle déjà entraîné pour prédire sur de nouvelles données.</td></tr>
+  <tr><td>Paramètres</td><td>Valeurs internes que le modèle apprend automatiquement pendant l’entraînement.</td></tr>
+  <tr><td>Hyperparamètres</td><td>Réglages décidés avant l’entraînement, comme le taux d’apprentissage ou le nombre d’époques.</td></tr>
+  <tr><td>Contexte métier</td><td>Besoin réel auquel le modèle doit répondre. Il détermine quelles erreurs sont les plus graves.</td></tr>
+  <tr><td>Régression</td><td>Tâche supervisée qui prédit une valeur numérique, par exemple un prix.</td></tr>
+  <tr><td>Classification</td><td>Tâche supervisée qui prédit une catégorie.</td></tr>
+  <tr><td>Classification binaire</td><td>Classification avec deux classes possibles.</td></tr>
+  <tr><td>Classification multiclasse</td><td>Classification avec plus de deux classes possibles.</td></tr>
+  <tr><td>Classification multilabel</td><td>Situation où une observation peut recevoir plusieurs étiquettes en même temps.</td></tr>
+  <tr><td>Modèle linéaire</td><td>Modèle qui apprend principalement des relations simples et linéaires.</td></tr>
+  <tr><td>Modèle non linéaire</td><td>Modèle capable d’apprendre des relations plus complexes.</td></tr>
+  <tr><td>Régression linéaire</td><td>Modèle linéaire utilisé pour prédire une valeur numérique.</td></tr>
+  <tr><td>Régression logistique</td><td>Modèle de classification qui estime une probabilité d’appartenance à une classe.</td></tr>
+  <tr><td>Probabilité prédite</td><td>Niveau de confiance attribué par le modèle à une classe, souvent compris entre 0 et 1.</td></tr>
+  <tr><td>Seuil de classification</td><td>Valeur à partir de laquelle une probabilité est transformée en classe.</td></tr>
+  <tr><td>Frontière de décision</td><td>Limite qui sépare les zones où le modèle prédit des classes différentes.</td></tr>
+</table>
+
+<h2>2. Préparation des données</h2>
+<table class="glossary">
+  <tr><th>Terme</th><th>Définition simple</th></tr>
+  <tr><td>Données brutes</td><td>Données telles qu’elles ont été collectées, avant nettoyage et transformation.</td></tr>
+  <tr><td>Nettoyage</td><td>Traitement des données manquantes, erronées, incohérentes ou inutilisables.</td></tr>
+  <tr><td>Prétraitement</td><td>Transformations appliquées avant de donner les données au modèle.</td></tr>
+  <tr><td>Feature engineering</td><td>Création ou transformation de caractéristiques pour fournir au modèle des informations plus utiles.</td></tr>
+  <tr><td>Approche Data-Centric</td><td>Démarche qui cherche d’abord à améliorer la qualité et la pertinence des données.</td></tr>
+  <tr><td>Approche Model-Centric</td><td>Démarche qui cherche surtout à améliorer l’algorithme ou ses réglages.</td></tr>
+  <tr><td>Mise à l’échelle</td><td>Transformation qui place plusieurs caractéristiques sur des ordres de grandeur comparables.</td></tr>
+  <tr><td>Normalisation</td><td>Terme général pour une transformation de l’échelle des valeurs.</td></tr>
+  <tr><td>Standardisation</td><td>Transformation qui centre généralement une variable autour de zéro et ajuste sa dispersion.</td></tr>
+  <tr><td>Corrélation</td><td>Mesure du lien statistique entre deux variables.</td></tr>
+  <tr><td>Corrélation de Pearson</td><td>Mesure surtout adaptée aux relations linéaires entre variables numériques.</td></tr>
+  <tr><td>Corrélation de Spearman</td><td>Mesure fondée sur le classement des valeurs, utile quand la relation n’est pas strictement linéaire.</td></tr>
+  <tr><td>Redondance</td><td>Présence de plusieurs caractéristiques qui apportent presque la même information.</td></tr>
+  <tr><td>Valeur aberrante ou outlier</td><td>Observation très éloignée de la majorité des autres observations.</td></tr>
+  <tr><td>Fuite de données ou data leakage</td><td>Utilisation pendant l’apprentissage d’une information qui devrait rester inconnue. Elle rend les scores artificiellement trop bons.</td></tr>
+  <tr><td>Fuite temporelle</td><td>Fuite dans laquelle le modèle apprend grâce à une information provenant du futur.</td></tr>
+</table>
+
+<h2>3. Séparation et validation</h2>
+<table class="glossary">
+  <tr><th>Terme</th><th>Définition simple</th></tr>
+  <tr><td>Jeu d’entraînement</td><td>Données utilisées pour apprendre les paramètres du modèle.</td></tr>
+  <tr><td>Jeu de validation</td><td>Données utilisées pour comparer les réglages et choisir les hyperparamètres.</td></tr>
+  <tr><td>Jeu de test</td><td>Données gardées à part jusqu’à la fin pour mesurer le modèle choisi.</td></tr>
+  <tr><td>Généralisation</td><td>Capacité du modèle à rester performant sur des données jamais vues.</td></tr>
+  <tr><td>Surapprentissage ou overfitting</td><td>Le modèle apprend trop précisément les exemples d’entraînement et réussit moins bien sur de nouvelles données.</td></tr>
+  <tr><td>Sous-apprentissage ou underfitting</td><td>Le modèle est trop simple ou insuffisamment entraîné pour apprendre correctement, même sur l’entraînement.</td></tr>
+  <tr><td>Validation croisée</td><td>Méthode qui répète entraînement et évaluation sur plusieurs découpages pour obtenir une mesure plus fiable.</td></tr>
+  <tr><td>Fold</td><td>Un des sous-ensembles utilisés pendant une validation croisée.</td></tr>
+  <tr><td>K-fold</td><td>Validation croisée en K morceaux, chacun servant une fois à l’évaluation.</td></tr>
+  <tr><td>Moyenne des scores</td><td>Performance moyenne obtenue sur tous les folds.</td></tr>
+  <tr><td>Écart-type des scores</td><td>Variation des performances entre les folds ; une grande valeur signale une forte instabilité.</td></tr>
+  <tr><td>Déséquilibre des classes</td><td>Une classe contient beaucoup plus d’exemples qu’une autre.</td></tr>
+  <tr><td>Stratification</td><td>Découpage qui conserve approximativement les proportions des classes.</td></tr>
+  <tr><td>Stratified K-Fold</td><td>Validation croisée qui maintient les proportions des classes dans chaque fold.</td></tr>
+  <tr><td>Groupe</td><td>Ensemble d’observations liées, par exemple plusieurs examens du même patient.</td></tr>
+  <tr><td>Leave One Group Out</td><td>Validation où un groupe complet est laissé de côté à chaque itération.</td></tr>
+  <tr><td>TimeSeriesSplit</td><td>Validation temporelle où l’apprentissage utilise le passé et l’évaluation une période plus récente.</td></tr>
+</table>
+
+<h2>4. Modèles étalons</h2>
+<table class="glossary">
+  <tr><th>Terme</th><th>Définition simple</th></tr>
+  <tr><td>Benchmark ou baseline</td><td>Référence simple servant à vérifier qu’un modèle plus complexe apporte réellement un gain.</td></tr>
+  <tr><td>Méthode à règles métier</td><td>Système qui décide à partir de règles fixes définies par des experts.</td></tr>
+  <tr><td>Dummy Regressor</td><td>Modèle volontairement simple qui prédit, par exemple, toujours la moyenne ou la médiane.</td></tr>
+  <tr><td>Dummy Classifier</td><td>Modèle volontairement simple qui suit une stratégie basique, comme les proportions des classes.</td></tr>
+  <tr><td>Modèle linéaire de référence</td><td>Modèle simple et interprétable utilisé comme point de comparaison.</td></tr>
+</table>
+
+<h2>5. Évaluation d’une régression</h2>
+<table class="glossary">
+  <tr><th>Terme</th><th>Définition simple</th></tr>
+  <tr><td>Erreur ou résidu</td><td>Différence entre la valeur réelle et la valeur prédite.</td></tr>
+  <tr><td>MAE</td><td>Moyenne de la taille des erreurs, dans la même unité que la cible.</td></tr>
+  <tr><td>RMSE</td><td>Mesure des erreurs qui pénalise davantage les grosses erreurs.</td></tr>
+  <tr><td>R²</td><td>Comparaison entre le modèle et une prédiction de référence. Ce n’est pas un pourcentage et il peut être négatif.</td></tr>
+  <tr><td>Distribution des erreurs</td><td>Répartition des erreurs, utile pour voir si le modèle se trompe surtout sur certains cas.</td></tr>
+  <tr><td>Pondération des observations</td><td>Poids supplémentaire donné à certains exemples pendant l’apprentissage ou l’évaluation.</td></tr>
+</table>
+
+<h2>6. Évaluation d’une classification</h2>
+<p class="note">Pour BrainScanAI, la classe positive est « cancer » et la classe négative est « normal ».</p>
+<table class="glossary">
+  <tr><th>Terme</th><th>Définition simple</th></tr>
+  <tr><td>Vrai positif</td><td>Cas positif correctement détecté : une image cancéreuse prédite cancéreuse.</td></tr>
+  <tr><td>Vrai négatif</td><td>Cas négatif correctement détecté : une image normale prédite normale.</td></tr>
+  <tr><td>Faux positif</td><td>Cas négatif annoncé positif : une image normale annoncée cancéreuse.</td></tr>
+  <tr><td>Faux négatif</td><td>Cas positif annoncé négatif : une image cancéreuse annoncée normale.</td></tr>
+  <tr><td>Matrice de confusion</td><td>Tableau qui compte vrais positifs, vrais négatifs, faux positifs et faux négatifs.</td></tr>
+  <tr><td>Accuracy</td><td>Proportion de toutes les prédictions correctes. Elle peut être trompeuse si les classes sont déséquilibrées.</td></tr>
+  <tr><td>Précision</td><td>Parmi les cas annoncés positifs, proportion réellement positive. Formule : VP ÷ (VP + FP). Une forte précision signifie peu de faux positifs.</td></tr>
+  <tr><td>Rappel ou sensibilité</td><td>Parmi les cas réellement positifs, proportion détectée. Formule : VP ÷ (VP + FN). Un fort rappel signifie peu de faux négatifs.</td></tr>
+  <tr><td>Spécificité</td><td>Parmi les cas réellement négatifs, proportion correctement reconnue. Formule : VN ÷ (VN + FP).</td></tr>
+  <tr><td>F1-score</td><td>Score qui équilibre précision et rappel avec la même importance.</td></tr>
+  <tr><td>Fβ-score</td><td>Famille de scores permettant de donner plus de poids à la précision ou au rappel.</td></tr>
+  <tr><td>F2-score</td><td>Fβ avec β = 2 ; il donne davantage d’importance au rappel qu’à la précision.</td></tr>
+  <tr><td>Taux de faux positifs</td><td>Proportion de négatifs classés à tort positifs. Formule : FP ÷ (FP + VN).</td></tr>
+  <tr><td>Courbe ROC</td><td>Courbe du compromis entre rappel et taux de faux positifs pour plusieurs seuils.</td></tr>
+  <tr><td>Courbe précision-rappel</td><td>Courbe du compromis entre précision et rappel ; elle est souvent utile avec des classes déséquilibrées.</td></tr>
+  <tr><td>AUC</td><td>Aire sous une courbe ROC ou précision-rappel, utilisée comme résumé numérique sur plusieurs seuils.</td></tr>
+  <tr><td>Choix du seuil</td><td>Sélection du seuil de probabilité correspondant au compromis métier souhaité.</td></tr>
+  <tr><td>Équilibrage des classes</td><td>Ensemble de techniques réduisant l’effet d’une classe beaucoup plus fréquente.</td></tr>
+  <tr><td>Sous-échantillonnage</td><td>Réduction du nombre d’exemples de la classe majoritaire.</td></tr>
+  <tr><td>Suréchantillonnage</td><td>Augmentation du nombre d’exemples de la classe minoritaire.</td></tr>
+  <tr><td>Poids de classe</td><td>Importance supplémentaire donnée aux erreurs sur une classe.</td></tr>
+</table>
+
+<h2>7. Optimisation du modèle</h2>
+<table class="glossary">
+  <tr><th>Terme</th><th>Définition simple</th></tr>
+  <tr><td>Optimisation des hyperparamètres</td><td>Recherche des réglages donnant les meilleures performances sur la validation.</td></tr>
+  <tr><td>Recherche empirique</td><td>Essais de plusieurs réglages, car aucun réglage n’est meilleur pour tous les jeux de données.</td></tr>
+  <tr><td>Grid Search</td><td>Test systématique de toutes les combinaisons prévues dans une grille.</td></tr>
+  <tr><td>Randomized Search</td><td>Test d’un nombre limité de combinaisons choisies aléatoirement.</td></tr>
+  <tr><td>Recherche bayésienne</td><td>Méthode qui utilise les essais précédents pour choisir plus intelligemment les suivants.</td></tr>
+  <tr><td>Sélection du modèle</td><td>Choix de la famille de modèle ou de l’architecture.</td></tr>
+  <tr><td>Sélection des hyperparamètres</td><td>Choix des réglages à partir des résultats de validation.</td></tr>
+  <tr><td>Modèle figé</td><td>Modèle dont l’architecture, les réglages et le prétraitement sont arrêtés avant le test final.</td></tr>
+</table>
+
+<h2>8. Explicabilité</h2>
+<table class="glossary">
+  <tr><th>Terme</th><th>Définition simple</th></tr>
+  <tr><td>XAI ou explicabilité</td><td>Méthodes destinées à mieux comprendre pourquoi un modèle produit une prédiction.</td></tr>
+  <tr><td>Boîte noire</td><td>Modèle complexe dont le fonctionnement interne est difficile à expliquer directement.</td></tr>
+  <tr><td>Contrefactuel</td><td>Exemple modifié montrant ce qu’il faudrait changer pour obtenir une autre prédiction.</td></tr>
+  <tr><td>Méthode model-agnostic</td><td>Méthode utilisable avec plusieurs types de modèles.</td></tr>
+  <tr><td>Méthode model-specific</td><td>Méthode conçue pour une famille particulière de modèles.</td></tr>
+  <tr><td>Importance globale</td><td>Influence moyenne d’une caractéristique sur l’ensemble des prédictions.</td></tr>
+  <tr><td>Importance locale</td><td>Influence d’une caractéristique sur une prédiction particulière.</td></tr>
+  <tr><td>Permutation Importance</td><td>Baisse de performance observée quand les valeurs d’une caractéristique sont mélangées.</td></tr>
+  <tr><td>SHAP</td><td>Méthode qui estime la contribution de chaque caractéristique à chaque prédiction.</td></tr>
+  <tr><td>Valeur de Shapley</td><td>Estimation d’une contribution obtenue en comparant de nombreuses combinaisons de caractéristiques.</td></tr>
+  <tr><td>Corrélation et causalité</td><td>Une corrélation montre un lien statistique, mais ne prouve pas qu’un élément provoque l’autre.</td></tr>
+</table>
+
+<h2>9. Déploiement et production</h2>
+<table class="glossary">
+  <tr><th>Terme</th><th>Définition simple</th></tr>
+  <tr><td>Déploiement</td><td>Mise à disposition du modèle pour que des personnes ou des applications puissent l’utiliser.</td></tr>
+  <tr><td>Production</td><td>Environnement réel dans lequel le modèle est utilisé.</td></tr>
+  <tr><td>Environnement virtuel</td><td>Espace isolé contenant Python et les bibliothèques nécessaires.</td></tr>
+  <tr><td>Dépendance ou package</td><td>Bibliothèque logicielle dont le code a besoin.</td></tr>
+  <tr><td>API</td><td>Moyen standardisé permettant à deux applications de communiquer.</td></tr>
+  <tr><td>Client</td><td>Application qui envoie une demande à un service.</td></tr>
+  <tr><td>Serveur</td><td>Système qui reçoit la demande, exécute le traitement et renvoie une réponse.</td></tr>
+  <tr><td>Endpoint</td><td>Adresse et fonction précises d’une API.</td></tr>
+  <tr><td>Requête HTTP</td><td>Message envoyé par un client à une API sur le Web.</td></tr>
+  <tr><td>Conteneurisation</td><td>Regroupement du code, du modèle et de ses dépendances dans un environnement reproductible.</td></tr>
+  <tr><td>Image Docker</td><td>Modèle prêt à servir pour créer un conteneur reproductible.</td></tr>
+  <tr><td>Conteneur</td><td>Instance en fonctionnement créée à partir d’une image.</td></tr>
+  <tr><td>BentoML</td><td>Outil présenté dans le cours pour préparer un modèle et son API au déploiement.</td></tr>
+  <tr><td>Serving Runtime</td><td>Partie qui regroupe le modèle, le code, l’API et les dépendances nécessaires à l’exécution.</td></tr>
+  <tr><td>Serving Platform</td><td>Infrastructure qui héberge le service et fournit les machines.</td></tr>
+  <tr><td>Cloud</td><td>Ressources informatiques louées à distance : calcul, mémoire et stockage.</td></tr>
+  <tr><td>Worker</td><td>Processus ou unité de calcul qui traite une partie des demandes.</td></tr>
+  <tr><td>Load balancer</td><td>Mécanisme qui répartit les demandes entre plusieurs workers ou machines.</td></tr>
+  <tr><td>Scaling vertical</td><td>Augmentation de la puissance d’une seule machine.</td></tr>
+  <tr><td>Scaling horizontal</td><td>Ajout de plusieurs machines qui se partagent le travail.</td></tr>
+</table>
+
+<h2>10. Drift, suivi et traçabilité</h2>
+<table class="glossary">
+  <tr><th>Terme</th><th>Définition simple</th></tr>
+  <tr><td>Drift ou dérive</td><td>Changement des données ou du contexte qui peut rendre le modèle moins fiable avec le temps.</td></tr>
+  <tr><td>Data Drift</td><td>Changement dans la distribution des caractéristiques fournies au modèle.</td></tr>
+  <tr><td>Target Drift</td><td>Changement dans la distribution de la cible.</td></tr>
+  <tr><td>Concept Drift</td><td>Changement de la relation entre les caractéristiques, la cible et la réalité métier.</td></tr>
+  <tr><td>Test de Kolmogorov-Smirnov</td><td>Test statistique permettant de comparer deux distributions numériques.</td></tr>
+  <tr><td>Monitoring</td><td>Surveillance régulière des données, prédictions et performances après déploiement.</td></tr>
+  <tr><td>Réentraînement</td><td>Nouvel entraînement avec des données plus récentes ou mieux adaptées.</td></tr>
+  <tr><td>MLOps</td><td>Pratiques organisant la création, le déploiement, la surveillance et la mise à jour des modèles.</td></tr>
+  <tr><td>Cycle de vie du modèle</td><td>Toutes les étapes, de la préparation des données au suivi et au remplacement du modèle.</td></tr>
+  <tr><td>Experiment tracking</td><td>Enregistrement structuré des essais, réglages, données et résultats.</td></tr>
+  <tr><td>Traçabilité</td><td>Capacité à retrouver exactement comment un résultat a été obtenu.</td></tr>
+  <tr><td>Versionnement</td><td>Conservation de plusieurs versions sans écraser les précédentes.</td></tr>
+  <tr><td>MLflow Tracking</td><td>Outil présenté dans le cours pour enregistrer et comparer des expériences.</td></tr>
+  <tr><td>Experiment</td><td>Groupe de plusieurs essais liés à un même objectif.</td></tr>
+  <tr><td>Run</td><td>Un essai précis avec ses réglages et ses résultats.</td></tr>
+  <tr><td>Metric</td><td>Résultat numérique enregistré pour comparer les essais.</td></tr>
+  <tr><td>Artifact</td><td>Fichier conservé avec un essai, par exemple un graphique ou une matrice de confusion.</td></tr>
+</table>
+</div>
+
+<div class="part">
+<div class="eyebrow">Révisions</div>
+<h1>Glossaire spécifique au projet BrainScanAI</h1>
+
+<h2>Images et extraction des caractéristiques</h2>
+<table class="glossary">
+  <tr><th>Terme</th><th>Définition simple</th></tr>
+  <tr><td>IRM</td><td>Technique d’imagerie médicale. Ici, les fichiers sont traités comme des images, sans revendiquer une validation clinique.</td></tr>
+  <tr><td>Image labellisée</td><td>Image pour laquelle une étiquette de référence est disponible.</td></tr>
+  <tr><td>Image non labellisée</td><td>Image sans étiquette connue.</td></tr>
+  <tr><td>Image corrompue</td><td>Fichier endommagé, incomplet ou impossible à décoder correctement.</td></tr>
+  <tr><td>Copie d’image</td><td>Fichier reproduisant une image déjà présente ; une copie dans plusieurs jeux peut fausser l’évaluation.</td></tr>
+  <tr><td>Égalisation d’histogramme</td><td>Transformation qui redistribue les niveaux de luminosité pour ajuster le contraste.</td></tr>
+  <tr><td>Canal RGB</td><td>Une des trois couches rouge, verte et bleue d’une image couleur.</td></tr>
+  <tr><td>Normalisation ImageNet</td><td>Mise à l’échelle des canaux selon les valeurs attendues par un modèle entraîné sur ImageNet.</td></tr>
+  <tr><td>Réseau de neurones</td><td>Modèle constitué de couches qui transforment progressivement les données.</td></tr>
+  <tr><td>CNN</td><td>Réseau de neurones convolutif, particulièrement adapté à l’analyse d’images.</td></tr>
+  <tr><td>Modèle pré-entraîné</td><td>Modèle qui a déjà appris sur un grand jeu de données avant d’être utilisé dans le projet.</td></tr>
+  <tr><td>Transfert d’apprentissage</td><td>Réutilisation de connaissances apprises auparavant par un modèle.</td></tr>
+  <tr><td>ResNet18</td><td>Réseau convolutif relativement compact utilisé ici comme extracteur de caractéristiques.</td></tr>
+  <tr><td>Poids gelés</td><td>Paramètres pré-entraînés laissés inchangés.</td></tr>
+  <tr><td>Layer3 et layer4</td><td>Deux niveaux de ResNet18 comparés pour choisir les caractéristiques les plus adaptées au regroupement.</td></tr>
+  <tr><td>Embedding ou vecteur de caractéristiques</td><td>Liste de nombres qui résume le contenu visuel d’une image.</td></tr>
+</table>
+
+<h2>Clustering et semi-supervisé</h2>
+<table class="glossary">
+  <tr><th>Terme</th><th>Définition simple</th></tr>
+  <tr><td>Apprentissage non supervisé</td><td>Recherche de structures dans des données sans utiliser leurs étiquettes.</td></tr>
+  <tr><td>Clustering</td><td>Regroupement automatique des observations qui se ressemblent.</td></tr>
+  <tr><td>PCA</td><td>Méthode qui résume de nombreuses caractéristiques avec moins de dimensions en conservant le plus d’information possible.</td></tr>
+  <tr><td>K-Means</td><td>Algorithme qui répartit les observations dans un nombre de groupes fixé à l’avance.</td></tr>
+  <tr><td>Centroïde</td><td>Centre moyen d’un groupe K-Means.</td></tr>
+  <tr><td>DBSCAN</td><td>Algorithme qui forme des groupes à partir de zones denses et peut laisser certains points hors groupe.</td></tr>
+  <tr><td>ARI</td><td>Score qui compare un regroupement automatique à des étiquettes connues en corrigeant les accords dus au hasard.</td></tr>
+  <tr><td>Apprentissage semi-supervisé</td><td>Méthode qui combine un petit ensemble labellisé avec un ensemble beaucoup plus grand sans label.</td></tr>
+  <tr><td>Label fort</td><td>Étiquette issue des données annotées considérées comme référence du projet.</td></tr>
+  <tr><td>Label faible</td><td>Étiquette automatique issue du clustering, utile mais moins fiable qu’un label expert.</td></tr>
+  <tr><td>Pseudo-label</td><td>Étiquette estimée automatiquement puis utilisée pendant une partie de l’entraînement.</td></tr>
+  <tr><td>Phase faible</td><td>Phase où le CNN apprend avec les labels faibles.</td></tr>
+  <tr><td>Phase forte</td><td>Phase où le modèle est ensuite ajusté avec les labels forts.</td></tr>
+</table>
+
+<h2>Entraînement et réduction du surapprentissage</h2>
+<table class="glossary">
+  <tr><th>Terme</th><th>Définition simple</th></tr>
+  <tr><td>Batch ou lot</td><td>Petit groupe d’images traité en une seule fois.</td></tr>
+  <tr><td>Époque</td><td>Passage complet sur toutes les données d’entraînement.</td></tr>
+  <tr><td>Taux d’apprentissage</td><td>Taille des ajustements apportés au modèle à chaque étape.</td></tr>
+  <tr><td>Optimiseur</td><td>Méthode utilisée pour mettre à jour les paramètres du réseau.</td></tr>
+  <tr><td>Fonction de perte</td><td>Mesure de l’erreur que le réseau cherche à réduire pendant l’entraînement.</td></tr>
+  <tr><td>Graine aléatoire</td><td>Valeur fixée pour rendre les tirages et résultats aussi reproductibles que possible.</td></tr>
+  <tr><td>Dropout</td><td>Technique qui désactive au hasard une partie des neurones pendant l’entraînement. Elle est désactivée pendant l’évaluation.</td></tr>
+  <tr><td>Dropout de 20 %</td><td>Essai dans lequel environ un neurone sur cinq est désactivé à chaque passage d’entraînement.</td></tr>
+  <tr><td>Régularisation L2</td><td>Technique qui pénalise les poids trop grands pour limiter une solution inutilement complexe.</td></tr>
+  <tr><td>Weight decay</td><td>Réglage de l’optimiseur utilisé pour appliquer la régularisation L2.</td></tr>
+  <tr><td>Data augmentation</td><td>Création de variantes réalistes des images d’entraînement. Elle n’a pas été retenue comme méthode finale dans ce notebook.</td></tr>
+  <tr><td>Diagnostic de surapprentissage</td><td>Comparaison des performances d’entraînement et de validation.</td></tr>
+</table>
+
+<h2>Évaluation et passage à l’échelle</h2>
+<table class="glossary">
+  <tr><th>Terme</th><th>Définition simple</th></tr>
+  <tr><td>Validation forte</td><td>Images labellisées utilisées pour choisir les réglages et les méthodes avant le test.</td></tr>
+  <tr><td>Test fort</td><td>Images labellisées réservées à l’évaluation finale.</td></tr>
+  <tr><td>F2 cancer</td><td>Métrique qui combine précision et rappel en donnant davantage de poids au rappel du cancer.</td></tr>
+  <tr><td>Résultat exploratoire</td><td>Résultat montrant une faisabilité technique sans constituer une preuve clinique.</td></tr>
+  <tr><td>Validation clinique</td><td>Étude beaucoup plus exigeante sur des données représentatives, avec des professionnels et un protocole adapté. Elle n’est pas réalisée ici.</td></tr>
+  <tr><td>Passage à l’échelle</td><td>Adaptation du traitement pour pouvoir analyser plusieurs millions d’images.</td></tr>
+  <tr><td>Temps de référence</td><td>Durée mesurée sur une machine précise ; elle peut changer sur un autre ordinateur.</td></tr>
+  <tr><td>RAM</td><td>Mémoire temporaire utilisée pendant l’exécution.</td></tr>
+  <tr><td>CPU</td><td>Processeur généraliste qui exécute les calculs.</td></tr>
+  <tr><td>GPU</td><td>Processeur adapté à de nombreux calculs parallèles, souvent utilisé pour les réseaux de neurones.</td></tr>
+  <tr><td>Débit</td><td>Nombre d’images traitées par unité de temps.</td></tr>
+  <tr><td>Instance cloud</td><td>Machine virtuelle louée auprès d’un fournisseur comme AWS.</td></tr>
+  <tr><td>Benchmark AWS</td><td>Test réel à effectuer sur la machine choisie pour confirmer le débit, la mémoire et le coût.</td></tr>
+  <tr><td>Budget de labellisation par IA</td><td>Enveloppe prévue pour produire des labels automatiquement ; ce n’est ni le budget d’annotation humaine ni le coût total du projet.</td></tr>
+  <tr><td>Contrôle qualité humain</td><td>Vérification d’un échantillon des prédictions afin de mesurer les erreurs réelles.</td></tr>
+</table>
+</div>
+
+<div class="part">
+<div class="eyebrow">Références</div>
+<h1>Sources utilisées</h1>
+<h2>Livrables vérifiés</h2>
+<table class="source">
+  <tr><th>Source</th><th>Utilisation</th></tr>
+  <tr><td>Ronan_Menguy_1_Notebook_092026.ipynb</td><td>Code, sorties enregistrées, organisation des jeux, essais, métriques et calculs.</td></tr>
+  <tr><td>Ronan_Menguy_1_Presentation_092026.pptx</td><td>Texte et chiffres des 13 slides, benchmark du PC de référence et hypothèses budgétaires.</td></tr>
+</table>
+
+<h2>Cours officiel OpenClassrooms</h2>
+<table class="source">
+  <tr><th>Chapitre</th><th>Lien</th></tr>
+  <tr><td>Cours principal</td><td><a href="https://openclassrooms.com/fr/courses/8431846-maitrisez-l-apprentissage-supervise">Maîtrisez l’apprentissage supervisé</a></td></tr>
+  <tr><td>Concepts clés</td><td><a href="https://openclassrooms.com/fr/courses/8431846-maitrisez-l-apprentissage-supervise/8500811-decouvrez-les-concepts-cles">Découvrez les concepts clés</a></td></tr>
+  <tr><td>Préparation des données</td><td><a href="https://openclassrooms.com/fr/courses/8431846-maitrisez-l-apprentissage-supervise/8500956-preparez-vos-donnees-pour-un-modele-supervise">Préparez vos données</a></td></tr>
+  <tr><td>Séparation des jeux</td><td><a href="https://openclassrooms.com/fr/courses/8431846-maitrisez-l-apprentissage-supervise/8501056-mettez-en-place-une-separation-apprentissage-test-coherente">Séparation apprentissage-test</a></td></tr>
+  <tr><td>Modèle étalon</td><td><a href="https://openclassrooms.com/fr/courses/8431846-maitrisez-l-apprentissage-supervise/8501181-commencez-par-un-modele-etalon-ou-benchmark">Commencez par un benchmark</a></td></tr>
+  <tr><td>Évaluation de la régression</td><td><a href="https://openclassrooms.com/fr/courses/8431846-maitrisez-l-apprentissage-supervise/8501311-evaluez-de-maniere-plus-poussee-vos-modeles-de-regression">Évaluez les modèles de régression</a></td></tr>
+  <tr><td>Évaluation de la classification</td><td><a href="https://openclassrooms.com/fr/courses/8431846-maitrisez-l-apprentissage-supervise/8501411-evaluez-de-maniere-plus-poussee-vos-modeles-de-classification">Évaluez les modèles de classification</a></td></tr>
+  <tr><td>Optimisation</td><td><a href="https://openclassrooms.com/fr/courses/8431846-maitrisez-l-apprentissage-supervise/8501606-optimisez-vos-modeles">Optimisez vos modèles</a></td></tr>
+  <tr><td>Explicabilité</td><td><a href="https://openclassrooms.com/fr/courses/8431846-maitrisez-l-apprentissage-supervise/8501746-donnez-de-la-transparence-a-votre-modele-supervise">Donnez de la transparence au modèle</a></td></tr>
+  <tr><td>Déploiement</td><td><a href="https://openclassrooms.com/fr/courses/8431846-maitrisez-l-apprentissage-supervise/8501961-preparez-le-deploiement-de-votre-modele-en-production">Préparez le déploiement</a></td></tr>
+  <tr><td>Drift</td><td><a href="https://openclassrooms.com/fr/courses/8431846-maitrisez-l-apprentissage-supervise/8502171-detectez-le-drift-de-votre-modele">Détectez le drift</a></td></tr>
+  <tr><td>Suivi des expériences</td><td><a href="https://openclassrooms.com/fr/courses/8431846-maitrisez-l-apprentissage-supervise/8502326-structurez-vos-modelisations-futures">Structurez vos modélisations</a></td></tr>
+</table>
+<p class="small">Les définitions de ce guide sont des reformulations pédagogiques. Les valeurs de performance et de coût proviennent des livrables du projet et de leurs hypothèses ; elles ne constituent pas une garantie médicale ou commerciale.</p>
+</div>
+
+</body>
+</html>
